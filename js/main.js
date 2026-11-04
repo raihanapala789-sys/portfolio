@@ -73,34 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ===================================================================
-   THEME TOGGLE (Warm Sand / Obsidian Gold)
+   THEME CONTROLLER (Permanent Night Mode / Obsidian Gold)
    =================================================================== */
 function initTheme() {
-  const themeToggle = document.getElementById("themeToggle");
-  const savedTheme = localStorage.getItem("raihanath_theme") || "light";
-  
-  applyTheme(savedTheme);
-
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      const currentTheme = document.documentElement.getAttribute("data-theme");
-      const nextTheme = currentTheme === "dark" ? "light" : "dark";
-      applyTheme(nextTheme);
-    });
-  }
-}
-
-function applyTheme(theme) {
-  document.documentElement.setAttribute("data-theme", theme);
-  localStorage.setItem("raihanath_theme", theme);
-  
-  const themeToggle = document.getElementById("themeToggle");
-  if (themeToggle) {
-    themeToggle.innerHTML = theme === "dark" 
-      ? '<i class="fa-solid fa-sun"></i>' 
-      : '<i class="fa-solid fa-moon"></i>';
-    themeToggle.setAttribute("title", theme === "dark" ? "Switch to Light Theme" : "Switch to Dark Theme");
-  }
+  document.documentElement.setAttribute("data-theme", "dark");
+  localStorage.setItem("raihanath_theme", "dark");
 }
 
 /* ===================================================================
