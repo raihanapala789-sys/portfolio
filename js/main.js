@@ -47,12 +47,12 @@ const PROJECTS_DATA = {
     ]
   },
   vilavil: {
-    title: "Vilavil Buttermilk Ad",
+    title: "Buttermilk Ad",
     category: "Dairy & Beverage Commercial",
     tagline: "Traditional Craftsmanship & Farm-Fresh Buttermilk Visual Storytelling",
     videoUrl: "assets/vilavil-ad.mp4",
     tools: ["OmniFlash", "Claude", "CapCut"],
-    overview: "A vibrant, sensory commercial created for Vilavil's authentic buttermilk manufacturing brand. Blending rich dairy heritage with modern food manufacturing, the video highlights natural ingredients, creamy fluid dynamics, condensation-chilled bottles, and farm-fresh refreshment designed to stimulate appetite and build deep consumer brand loyalty.",
+    overview: "A vibrant, sensory commercial created for an authentic buttermilk manufacturing brand. Blending rich dairy heritage with modern food manufacturing, the video highlights natural ingredients, creamy fluid dynamics, condensation-chilled bottles, and farm-fresh refreshment designed to stimulate appetite and build deep consumer brand loyalty.",
     promptStrategy: "Multi-layered generative prompt architecture orchestrating macro dairy fluid splashes, traditional churning aesthetics, chilled bottle condensation beads, and warm sunlit farm ambiance.",
     highlights: [
       "Rich, realistic dairy fluid physics and refreshing splash simulations",

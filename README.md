@@ -16,7 +16,7 @@ A luxury editorial portfolio crafted with cinematic motion, responsive architect
 1. **Abba Perfume** — High-Fashion Cinematic Fragrance Commercial (*Seedance*, *ChatGPT*, *CapCut*)
 2. **Plus Point Cleaning Service** — Professional Residential & Commercial Cleaning Ad (*Wan*, *Claude*, *CapCut*)
 3. **Evostyle Ad** — Haute Couture AI Editorial Fashion Film (*Kling*, *ChatGPT*, *CapCut*)
-4. **Vilavil Buttermilk Ad** — Sensory FMCG Dairy & Beverage Commercial (*OmniFlash*, *Claude*, *CapCut*)
+4. **Buttermilk Ad** — Sensory FMCG Dairy & Beverage Commercial (*OmniFlash*, *Claude*, *CapCut*)
 
 ---
 
