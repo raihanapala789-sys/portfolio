@@ -1,0 +1,18 @@
+{
+  "name": "raihanath-portfolio",
+  "version": "1.0.0",
+  "description": "Personal Portfolio for Raihanath — AI Content Creator",
+  "main": "index.html",
+  "scripts": {
+    "start": "powershell -ExecutionPolicy Bypass -File ./serve.ps1 -Port 8080",
+    "dev": "powershell -ExecutionPolicy Bypass -File ./serve.ps1 -Port 8080",
+    "serve": "powershell -ExecutionPolicy Bypass -File ./serve.ps1 -Port 8080"
+  },
+  "keywords": [
+    "portfolio",
+    "ai-content-creator",
+    "raihanath"
+  ],
+  "author": "Raihanath",
+  "license": "ISC"
+}

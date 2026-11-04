@@ -1,0 +1,11 @@
+# Intermediate / backup media
+assets/*-old.*
+assets/*malayalam*
+assets/abba-orange.mov
+
+# System & temporary files
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/

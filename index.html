@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAIHANATH — AI Content Creator & Cinematic Visual Director</title>
+  <meta name="description" content="Personal portfolio of Raihanath, an AI Content Creator & Chemistry Graduate from University of Calicut. Specializing in cinematic AI videos, luxury product commercials, prompt engineering, and vibe coding.">
+  <meta name="keywords" content="Raihanath, AI Content Creator, Cinematic AI Video, Prompt Engineering, Vibe Coding, AI Commercials, Visual Experiments">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%23FB6C00'/><text x='50%' y='62%' font-size='56' font-family='serif' font-weight='bold' fill='%232A1A0E' text-anchor='middle'>R</text></svg>">
+  
+  <!-- Google Fonts (Cinzel, Antonio & Big Shoulders Display for Reference Writing, Cormorant, Syne, Plus Jakarta Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Anton&family=Antonio:wght@700&family=Bebas+Neue&family=Big+Shoulders+Display:wght@800;900&family=Birthstone+Bounce:wght@500&family=Cinzel:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Great+Vibes&family=Luxurious+Script&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons for Polish -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Ambient Light Glow Elements -->
+  <div class="ambient-glow ambient-glow-top"></div>
+  <div class="ambient-glow ambient-glow-mid"></div>
+  <div class="ambient-glow ambient-glow-bottom"></div>
+
+  <!-- =================================================================
+       NAVIGATION HEADER
+       ================================================================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-container">
+      <a href="#hero" class="nav-brand">
+        <div class="brand-monogram">R</div>
+        <div class="brand-text">
+          <span class="brand-name">RAIHANATH</span>
+          <span class="brand-title">AI Content Creator</span>
+        </div>
+      </a>
+
+      <!-- Desktop & Mobile Navigation Links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#services" class="nav-link">What I Bring</a></li>
+        <li><a href="#why-me" class="nav-link">Why Me</a></li>
+        <li><a href="#tools" class="nav-link">Tools</a></li>
+        <li><a href="#experiments" class="nav-link">Experiments</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <!-- Action items -->
+      <div class="nav-actions">
+        <!-- Theme Toggle (Light Sand / Dark Obsidian Gold) -->
+        <button class="theme-toggle-btn" id="themeToggle" title="Toggle Theme" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <a href="#contact" class="btn-primary">
+          <span>Let's Talk</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =================================================================
+         SECTION 1: HERO SECTION
+         Reference: Warm champagne sand, dimensional PORTFOLIO watermark,
+         and high-fashion portrait framing
+         ================================================================= -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-grid">
+        <!-- Hero Text Content (Centered Editorial) -->
+        <div class="hero-content">
+          <div class="hero-status-pill">
+            <span class="status-dot"></span>
+            <span class="status-text">Available for Projects & Direction</span>
+          </div>
+
+          <h1 class="hero-name">
+            AI CONTENT CREATOR
+            <span class="hero-title-highlight">Raihanath</span>
+          </h1>
+
+          <p class="hero-description" id="typingHeroDescription">
+            <span class="typing-text">Hi, I'm <strong>RAIHANATH</strong>, an <strong>AI CONTENT CREATOR</strong>. I transform ideas into cinematic AI videos, compelling advertisements, and creative digital experiences for modern brands.</span><span class="typing-cursor">|</span>
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#experiments" class="btn-primary">
+              <i class="fa-solid fa-film"></i>
+              <span>Explore Visual Experiments</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         SECTION 2: ABOUT ME
+         Reference Inspired: Metallic Embossed Plaque [ WHO AM I ? ]
+         ================================================================= -->
+    <section class="about-section" id="about">
+      <!-- Creative Animated Background: Neural & Chemistry Ambient Mesh -->
+      <div class="about-bg-fx" aria-hidden="true">
+        <div class="about-orb about-orb-1"></div>
+        <div class="about-orb about-orb-2"></div>
+        <div class="about-orb about-orb-3"></div>
+        <canvas id="aboutMeshCanvas" class="about-mesh-canvas"></canvas>
+      </div>
+
+      <div class="container">
+        <!-- 3D Metallic Plaque Header (Reference Photo 2) -->
+        <div class="plaque-wrapper">
+          <div class="metallic-plaque">WHO AM I ?</div>
+        </div>
+        <p class="section-subtitle">Bridging analytical science with generative artificial intelligence</p>
+
+        <div class="about-editorial-wrap">
+          <div class="about-story">
+            <p class="about-p">
+              I'm <strong>Raihanath</strong>, a Chemistry graduate from the <strong>University of Calicut</strong> and an AI Content Creator passionate about combining creativity with emerging technology.
+            </p>
+
+            <p class="about-p">
+              My academic background has shaped my analytical thinking and attention to detail, while my passion for artificial intelligence has led me into AI-powered content creation, cinematic video production, prompt engineering, video editing, and digital experiences.
+            </p>
+
+            <p class="about-p">
+              I enjoy transforming ideas into compelling visual stories, creating cinematic advertisements, and exploring innovative ways to help brands communicate through AI.
+            </p>
+
+            <p class="about-p">
+              I'm continuously learning, experimenting with new tools, and refining my creative skills to turn concepts into meaningful digital experiences.
+            </p>
+
+            <!-- Signature Vision Statement Quote Plaque -->
+            <div class="vision-quote-card">
+              <div class="vision-title">Core Vision</div>
+              <div class="vision-text">
+                “My vision is simple: to bridge creativity and technology, create impactful content, and help ideas stand out in the digital world.”
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         SECTION 3: WHAT I BRING
+         Reference Inspired: Metallic Golden Plaques & Futuristic AI Badges
+         ================================================================= -->
+    <section class="services-section" id="services">
+      <div class="container">
+        <!-- 3D Metallic Plaque Header -->
+        <div class="plaque-wrapper">
+          <div class="metallic-plaque">WHAT I BRING</div>
+        </div>
+        <p class="section-subtitle">Where AI innovation meets thoughtful content creation</p>
+
+        <div class="services-grid">
+          <!-- 1: AI Video Production -->
+          <div class="gold-card">
+            <div class="card-header-bar">
+              <span class="metallic-badge">CINEMATIC</span>
+              <span class="card-num">01</span>
+            </div>
+            <div class="card-icon-banner">
+              <i class="fa-solid fa-video"></i>
+            </div>
+            <h3 class="card-title">AI Video Production</h3>
+            <p class="card-description">
+              Produce cinematic brand advertisements, product films, and visual experiences using state-of-the-art AI video tools like Kling and Flow.
+            </p>
+            <div class="card-pill-tags">
+              <span class="card-tag">Brand Commercials</span>
+              <span class="card-tag">Product Films</span>
+              <span class="card-tag">Camera Motion</span>
+            </div>
+          </div>
+
+          <!-- 2: Prompt Engineering -->
+          <div class="gold-card">
+            <div class="card-header-bar">
+              <span class="metallic-badge">PRECISION</span>
+              <span class="card-num">02</span>
+            </div>
+            <div class="card-icon-banner">
+              <i class="fa-solid fa-terminal"></i>
+            </div>
+            <h3 class="card-title">Prompt Engineering</h3>
+            <p class="card-description">
+              Craft detailed prompts for AI images, videos, and creative workflows to achieve consistent, high-quality, and reproducible results.
+            </p>
+            <div class="card-pill-tags">
+              <span class="card-tag">Style Locking</span>
+              <span class="card-tag">Multi-Modal Prompts</span>
+              <span class="card-tag">Seed Control</span>
+            </div>
+          </div>
+
+          <!-- 3: Video Editing -->
+          <div class="gold-card">
+            <div class="card-header-bar">
+              <span class="metallic-badge">POST-PROD</span>
+              <span class="card-num">03</span>
+            </div>
+            <div class="card-icon-banner">
+              <i class="fa-solid fa-scissors"></i>
+            </div>
+            <h3 class="card-title">Video Editing</h3>
+            <p class="card-description">
+              Transform raw footage into polished videos with seamless transitions, dynamic pacing, immersive sound design, and cinematic colour grading.
+            </p>
+            <div class="card-pill-tags">
+              <span class="card-tag">Sound Design</span>
+              <span class="card-tag">Pacing & Flow</span>
+              <span class="card-tag">Colour Grading</span>
+            </div>
+          </div>
+
+          <!-- 4: Vibe Coding -->
+          <div class="gold-card">
+            <div class="card-header-bar">
+              <span class="metallic-badge">DEV & UI</span>
+              <span class="card-num">04</span>
+            </div>
+            <div class="card-icon-banner">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <h3 class="card-title">Vibe Coding</h3>
+            <p class="card-description">
+              Build modern websites, landing pages, and digital experiences using AI-powered coding tools and creative workflows tailored for modern aesthetics.
+            </p>
+            <div class="card-pill-tags">
+              <span class="card-tag">Modern Web</span>
+              <span class="card-tag">Landing Pages</span>
+              <span class="card-tag">Interactive UI</span>
+            </div>
+          </div>
+
+          <!-- 5: Social Media Marketing -->
+          <div class="gold-card">
+            <div class="card-header-bar">
+              <span class="metallic-badge">GROWTH</span>
+              <span class="card-num">05</span>
+            </div>
+            <div class="card-icon-banner">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h3 class="card-title">Social Media Marketing</h3>
+            <p class="card-description">
+              Develop social media strategies, engaging campaigns, content plans, and brand-focused marketing to help businesses attract, engage, and grow online.
+            </p>
+            <div class="card-pill-tags">
+              <span class="card-tag">Viral Hooks</span>
+              <span class="card-tag">Campaign Strategy</span>
+              <span class="card-tag">Audience Growth</span>
+            </div>
+          </div>
+
+          <!-- 6: AI Product Advertising -->
+          <div class="gold-card">
+            <div class="card-header-bar">
+              <span class="metallic-badge">LUXURY ADS</span>
+              <span class="card-num">06</span>
+            </div>
+            <div class="card-icon-banner">
+              <i class="fa-solid fa-gem"></i>
+            </div>
+            <h3 class="card-title">AI Product Advertising</h3>
+            <p class="card-description">
+              AI-powered product commercials, luxury visuals, and promotional campaigns that elevate premium lifestyle brands and maximize conversion appeal.
+            </p>
+            <div class="card-pill-tags">
+              <span class="card-tag">Luxury Visuals</span>
+              <span class="card-tag">Product Commercials</span>
+              <span class="card-tag">3D Staging</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         SECTION 4: WHY WORK WITH ME?
+         Numbered luxury editorial cards
+         ================================================================= -->
+    <section class="why-section" id="why-me">
+      <div class="container">
+        <!-- 3D Metallic Plaque Header -->
+        <div class="plaque-wrapper">
+          <div class="metallic-plaque">WHY WORK WITH ME?</div>
+        </div>
+        <p class="section-subtitle">Dedicated craft, artistic vision, and unwavering technological rigor</p>
+
+        <div class="why-grid">
+          <!-- 01 -->
+          <div class="why-card">
+            <div class="why-num">01</div>
+            <h3 class="why-title">Creativity with Purpose</h3>
+            <p class="why-p">
+              Every project starts with an idea. I focus on developing original concepts and visual stories that communicate your message effectively and leave an indelible impression.
+            </p>
+          </div>
+
+          <!-- 02 -->
+          <div class="why-card">
+            <div class="why-num">02</div>
+            <h3 class="why-title">AI-Powered Innovation</h3>
+            <p class="why-p">
+              I explore modern AI tools and creative workflows to bring ideas to life through cinematic videos, compelling advertisements, and engaging digital content that pushes technical boundaries.
+            </p>
+          </div>
+
+          <!-- 03 -->
+          <div class="why-card">
+            <div class="why-num">03</div>
+            <h3 class="why-title">Attention to Detail</h3>
+            <p class="why-p">
+              From prompt development to the final edit, I focus on visual consistency, composition, storytelling, and the finer details that make content feel truly polished and cinematic.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         SECTION 5: TOOLS (CREATIVE TECH STACK)
+         ================================================================= -->
+    <section class="tools-section" id="tools">
+      <div class="container">
+        <!-- 3D Metallic Plaque Header -->
+        <div class="plaque-wrapper">
+          <div class="metallic-plaque">TOOLS & STACK</div>
+        </div>
+        <p class="section-subtitle">State-of-the-art generative models, motion engines, and post-production suites</p>
+
+        <div class="tools-categories">
+          <!-- Category 1: AI (Language & Concepts) -->
+          <div class="tool-group-card">
+            <div class="tool-group-header">
+              <div class="tool-group-icon">
+                <i class="fa-solid fa-brain"></i>
+              </div>
+              <h3 class="tool-group-title">AI Intelligence</h3>
+            </div>
+            <div class="tool-items-list">
+              <div class="tool-item-pill">
+                <div class="tool-name-info">
+                  <span class="tool-bullet"></span>
+                  <span class="tool-name">ChatGPT</span>
+                </div>
+                <span class="tool-badge">Concept & Script</span>
+              </div>
+              <div class="tool-item-pill">
+                <div class="tool-name-info">
+                  <span class="tool-bullet"></span>
+                  <span class="tool-name">Gemini</span>
+                </div>
+                <span class="tool-badge">Multimodal Ideation</span>
+              </div>
+              <div class="tool-item-pill">
+                <div class="tool-name-info">
+                  <span class="tool-bullet"></span>
+                  <span class="tool-name">Claude</span>
+                </div>
+                <span class="tool-badge">Storytelling</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 2: AI Image / Video -->
+          <div class="tool-group-card">
+            <div class="tool-group-header">
+              <div class="tool-group-icon">
+                <i class="fa-solid fa-clapperboard"></i>
+              </div>
+              <h3 class="tool-group-title">AI Image & Video</h3>
+            </div>
+            <div class="tool-items-list">
+              <div class="tool-item-pill">
+                <div class="tool-name-info">
+                  <span class="tool-bullet"></span>
+                  <span class="tool-name">Nano Banana</span>
+                </div>
+                <span class="tool-badge">Image Synthesis</span>
+              </div>
+              <div class="tool-item-pill">
+                <div class="tool-name-info">
+                  <span class="tool-bullet"></span>
+                  <span class="tool-name">OmniFlash</span>
+                </div>
+                <span class="tool-badge">Rapid Asset Gen</span>
+              </div>
+              <div class="tool-item-pill">
+                <div class="tool-name-info">
+                  <span class="tool-bullet"></span>
+                  <span class="tool-name">Seedance</span>
+                </div>
+                <span class="tool-badge">Motion Continuity</span>
+              </div>
+              <div class="tool-item-pill">
+                <div class="tool-name-info">
+                  <span class="tool-bullet"></span>
+                  <span class="tool-name">Kling</span>
+                </div>
+                <span class="tool-badge">Cinematic Video</span>
+              </div>
+              <div class="tool-item-pill">
+                <div class="tool-name-info">
+                  <span class="tool-bullet"></span>
+                  <span class="tool-name">Flow</span>
+                </div>
+                <span class="tool-badge">Dynamic Motion</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 3: Editing -->
+          <div class="tool-group-card">
+            <div class="tool-group-header">
+              <div class="tool-group-icon">
+                <i class="fa-solid fa-sliders"></i>
+              </div>
+              <h3 class="tool-group-title">Post-Production</h3>
+            </div>
+            <div class="tool-items-list">
+              <div class="tool-item-pill">
+                <div class="tool-name-info">
+                  <span class="tool-bullet"></span>
+                  <span class="tool-name">Canva</span>
+                </div>
+                <span class="tool-badge">Layout & Social</span>
+              </div>
+              <div class="tool-item-pill">
+                <div class="tool-name-info">
+                  <span class="tool-bullet"></span>
+                  <span class="tool-name">CapCut</span>
+                </div>
+                <span class="tool-badge">Transitions & Audio</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         SECTION 6: VISUAL EXPERIMENTS (PROJECT SHOWCASE)
+         ================================================================= -->
+    <section class="experiments-section" id="experiments">
+      <div class="container">
+        <!-- 3D Metallic Plaque Header -->
+        <div class="plaque-wrapper">
+          <div class="metallic-plaque">VISUAL EXPERIMENTS</div>
+        </div>
+        <p class="section-subtitle">Original commercial concepts, sensory advertising, and AI-directed campaigns</p>
+
+        <!-- Project Filter Buttons -->
+        <div class="experiments-filter-bar">
+          <button class="filter-btn active" data-filter="all">All Works</button>
+          <button class="filter-btn" data-filter="commercial">Commercials</button>
+          <button class="filter-btn" data-filter="luxury">Luxury & Fragrance</button>
+          <button class="filter-btn" data-filter="brand">Brand Campaigns</button>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Experiment 1: Abba Perfume -->
+          <div class="project-card" data-category="luxury commercial" onclick="openProjectModal('abba')">
+            <div class="project-thumbnail-wrapper">
+              <video class="project-card-video" src="assets/abba-perfume.mp4" autoplay muted loop playsinline preload="metadata"></video>
+              <span class="canvas-overlay-tag"><i class="fa-solid fa-play" style="margin-right: 4px; font-size: 0.65rem;"></i> AI Video</span>
+              <div class="play-prompt-btn">
+                <i class="fa-solid fa-play"></i>
+              </div>
+            </div>
+            <div class="project-info">
+              <span class="project-category">High-Fashion Cinematic Commercial</span>
+              <h3 class="project-title">Abba Perfume</h3>
+              <p class="project-summary">
+                A sensory AI video campaign exploring golden liquid amber, floating micro-droplets, and cinematic chiaroscuro lighting designed for high-end luxury appeal.
+              </p>
+              <div class="project-footer-bar">
+                <div class="project-tools-used">
+                  <span class="tool-chip">Seedance</span>
+                  <span class="tool-chip">ChatGPT</span>
+                  <span class="tool-chip">CapCut</span>
+                </div>
+                <span class="project-view-btn">
+                  <span>View Details</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Experiment 2: Plus Point Cleaning Service -->
+          <div class="project-card" data-category="brand commercial" onclick="openProjectModal('pluspoint')">
+            <div class="project-thumbnail-wrapper">
+              <video class="project-card-video" src="assets/plus-point.mp4" autoplay muted loop playsinline preload="metadata"></video>
+              <span class="canvas-overlay-tag"><i class="fa-solid fa-play" style="margin-right: 4px; font-size: 0.65rem;"></i> AI Video</span>
+              <div class="play-prompt-btn">
+                <i class="fa-solid fa-play"></i>
+              </div>
+            </div>
+            <div class="project-info">
+              <span class="project-category">Professional Cleaning Commercial</span>
+              <h3 class="project-title">Plus Point Cleaning Service</h3>
+              <p class="project-summary">
+                A crisp, dynamic commercial showcasing spotless interiors, pristine surface transformations, and trusted residential & commercial cleaning excellence.
+              </p>
+              <div class="project-footer-bar">
+                <div class="project-tools-used">
+                  <span class="tool-chip">Wan</span>
+                  <span class="tool-chip">Claude</span>
+                  <span class="tool-chip">CapCut</span>
+                </div>
+                <span class="project-view-btn">
+                  <span>View Details</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Experiment 3: Evostyle Ad -->
+          <div class="project-card" data-category="luxury commercial" onclick="openProjectModal('evostyle')">
+            <div class="project-thumbnail-wrapper">
+              <div class="visual-canvas canvas-evostyle">
+                <!-- Evostyle Fashion Visual -->
+                <div style="text-align: center; color: #FAF0CD; z-index: 2;">
+                  <i class="fa-solid fa-vest-patches" style="font-size: 3.2rem; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));"></i>
+                  <div style="font-family: var(--font-serif); font-size: 1.6rem; letter-spacing: 0.2em; margin-top: 0.75rem; font-weight: 700;">EVOSTYLE</div>
+                  <div style="font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-light);">Haute Couture AI</div>
+                </div>
+                <span class="canvas-overlay-tag">Fashion Film</span>
+                <div class="play-prompt-btn">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+            </div>
+            <div class="project-info">
+              <span class="project-category">High-Fashion Cinematic Commercial</span>
+              <h3 class="project-title">Evostyle Ad</h3>
+              <p class="project-summary">
+                Futuristic editorial fashion film highlighting fluid silk simulations, runway camera pans, and warm studio lighting for modern apparel storytelling.
+              </p>
+              <div class="project-footer-bar">
+                <div class="project-tools-used">
+                  <span class="tool-chip">Kling</span>
+                  <span class="tool-chip">ChatGPT</span>
+                  <span class="tool-chip">CapCut</span>
+                </div>
+                <span class="project-view-btn">
+                  <span>View Details</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Experiment 4: Vilavil Buttermilk Ad -->
+          <div class="project-card" data-category="brand commercial" onclick="openProjectModal('vilavil')">
+            <div class="project-thumbnail-wrapper">
+              <video class="project-card-video" src="assets/vilavil-ad.mp4" autoplay muted loop playsinline preload="metadata"></video>
+              <span class="canvas-overlay-tag"><i class="fa-solid fa-play" style="margin-right: 4px; font-size: 0.65rem;"></i> AI Video</span>
+              <div class="play-prompt-btn">
+                <i class="fa-solid fa-play"></i>
+              </div>
+            </div>
+            <div class="project-info">
+              <span class="project-category">Dairy & Beverage Commercial</span>
+              <h3 class="project-title">Vilavil Buttermilk Ad</h3>
+              <p class="project-summary">
+                A refreshing, sensory commercial celebrating authentic buttermilk manufacturing, rich fluid dynamics, and farm-fresh dairy purity designed for FMCG brand engagement.
+              </p>
+              <div class="project-footer-bar">
+                <div class="project-tools-used">
+                  <span class="tool-chip">OmniFlash</span>
+                  <span class="tool-chip">Claude</span>
+                  <span class="tool-chip">CapCut</span>
+                </div>
+                <span class="project-view-btn">
+                  <span>View Details</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         SECTION 7: LET'S TURN YOUR IDEAS INTO REALITY & WORDS OF TRUST
+         ================================================================= -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <!-- 3D Metallic Plaque Header -->
+        <div class="plaque-wrapper">
+          <div class="metallic-plaque">LET'S TURN YOUR IDEAS INTO REALITY</div>
+        </div>
+        <p class="section-subtitle">Reach out directly for AI video production, brand commercials, or creative direction</p>
+
+        <div class="contact-layout">
+          <!-- Left Column: Words of Trust & Direct Channels -->
+          <div class="contact-left-col">
+            <!-- Words of Trust (Testimonial Card) -->
+            <div class="trust-card">
+              <div class="trust-badge-pill">
+                <i class="fa-solid fa-medal"></i>
+                <span>Words of Trust</span>
+              </div>
+
+              <div class="trust-stars">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+
+              <blockquote class="trust-quote">
+                “Professional work delivered on time, creative ideas and smooth communication”
+              </blockquote>
+
+              <div class="trust-author">
+                <div class="author-avatar">
+                  <i class="fa-solid fa-user-check"></i>
+                </div>
+                <div>
+                  <div class="author-name">Verified Client Endorsement</div>
+                  <div class="author-title">Brand Collaboration • Commercial Direction</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Direct Contact Channels -->
+            <div class="contact-channels">
+              <!-- Phone / WhatsApp -->
+              <div class="channel-card">
+                <div class="channel-left">
+                  <div class="channel-icon">
+                    <i class="fa-solid fa-phone"></i>
+                  </div>
+                  <div class="channel-info">
+                    <span class="channel-label">Direct Line / WhatsApp</span>
+                    <a href="tel:+919745147246" class="channel-value">+91 9745147246</a>
+                  </div>
+                </div>
+                <button class="channel-action-btn" onclick="copyToClipboard('+919745147246', 'Phone number copied!')">
+                  Copy
+                </button>
+              </div>
+
+              <!-- Email -->
+              <div class="channel-card">
+                <div class="channel-left">
+                  <div class="channel-icon">
+                    <i class="fa-solid fa-envelope"></i>
+                  </div>
+                  <div class="channel-info">
+                    <span class="channel-label">Official Email</span>
+                    <a href="mailto:wwwraihanapala123@gmail.com" class="channel-value">wwwraihanapala123@gmail.com</a>
+                  </div>
+                </div>
+                <button class="channel-action-btn" onclick="copyToClipboard('wwwraihanapala123@gmail.com', 'Email copied!')">
+                  Copy
+                </button>
+              </div>
+
+              <!-- Instagram / Visual Studio -->
+              <div class="channel-card">
+                <div class="channel-left">
+                  <div class="channel-icon">
+                    <i class="fa-brands fa-instagram"></i>
+                  </div>
+                  <div class="channel-info">
+                    <span class="channel-label">Creative Studio</span>
+                    <span class="channel-value">ai._visualstudio</span>
+                  </div>
+                </div>
+                <a href="https://www.instagram.com/ai._visualstudio?rpxt=NmtmNWgyN2xybWVl" target="_blank" rel="noopener noreferrer" class="channel-action-btn">
+                  Visit
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Project Inquiry Form -->
+          <div class="contact-form-box">
+            <div class="form-header">
+              <h3 class="form-title">Start a Project</h3>
+              <p class="form-subtitle">Fill out the brief details below and I'll respond within 24 hours.</p>
+            </div>
+
+            <form class="contact-form" id="contactForm" onsubmit="handleFormSubmit(event)">
+              <div class="form-group">
+                <label class="form-label" for="userName">Your Name / Brand</label>
+                <input class="form-input" type="text" id="userName" placeholder="e.g. Maya Lin / Luxe Studio" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="userEmail">Email Address</label>
+                <input class="form-input" type="email" id="userEmail" placeholder="yourname@domain.com" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="serviceSelect">Service Needed</label>
+                <select class="form-select" id="serviceSelect" required>
+                  <option value="" disabled selected>Select a service...</option>
+                  <option value="AI Video Production">1 — AI Video Production</option>
+                  <option value="Prompt Engineering">2 — Prompt Engineering</option>
+                  <option value="Video Editing">3 — Video Editing</option>
+                  <option value="Vibe Coding">4 — Vibe Coding & Web</option>
+                  <option value="Social Media Marketing">5 — Social Media Marketing</option>
+                  <option value="AI Product Advertising">6 — AI Product Advertising</option>
+                  <option value="Full Campaign / Other">Comprehensive Brand Campaign</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="userMessage">Project Details & Vision</label>
+                <textarea class="form-textarea" id="userMessage" placeholder="Tell me about your product, timeline, and goals..." required></textarea>
+              </div>
+
+              <button type="submit" class="form-submit-btn" id="submitBtn">
+                <span>Send Collaboration Request</span>
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =================================================================
+       FOOTER
+       ================================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-name">RAIHANATH</span>
+          <span class="footer-tagline">AI Content Creator • Creative Technologist</span>
+        </div>
+
+        <div class="footer-social-links">
+          <a href="https://www.instagram.com/ai._visualstudio?rpxt=NmtmNWgyN2xybWVl" target="_blank" rel="noopener noreferrer" class="social-circle-link" title="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="mailto:wwwraihanapala123@gmail.com" class="social-circle-link" title="Email">
+            <i class="fa-solid fa-envelope"></i>
+          </a>
+          <a href="https://wa.me/919745147246" target="_blank" class="social-circle-link" title="WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+          <a href="tel:+919745147246" class="social-circle-link" title="Call">
+            <i class="fa-solid fa-phone"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © 2026 RAIHANATH • All Rights Reserved. Crafted with AI & Human Creativity.
+        </div>
+        <a href="#hero" class="back-to-top-btn">
+          <span>Back to Top</span>
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =================================================================
+       PROJECT DETAIL MODAL
+       ================================================================= -->
+  <div class="modal-backdrop" id="projectModal" onclick="closeProjectModalOnBackdrop(event)">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeProjectModal()" aria-label="Close modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div id="modalContent">
+        <!-- Dynamically populated via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
