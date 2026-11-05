@@ -41,6 +41,7 @@ Then visit [http://localhost:8080](http://localhost:8080) in your browser.
 ---
 
 ## 📬 Contact & Collaborations
+- **Email**: [raihanapala789@gmail.com](mailto:raihanapala789@gmail.com)
 - **Instagram**: [@ai._visualstudio](https://www.instagram.com/ai._visualstudio?rpxt=NmtmNWgyN2xybWVl)
 - **WhatsApp**: [+91 97451 47246](https://wa.me/919745147246)
 - **Location**: Kerala, India — Open for global commissions
