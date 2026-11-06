@@ -1563,8 +1563,9 @@ img {
   background: radial-gradient(circle at 60% 40%, #7D5B28 0%, #291D11 50%, #0D0A08 100%);
 }
 
-.canvas-evostyle {
-  background: radial-gradient(circle at 40% 60%, #B89758 0%, #3D2D16 60%, #100D09 100%);
+.canvas-evostyle,
+.canvas-school {
+  background: radial-gradient(circle at 40% 60%, rgba(251, 108, 0, 0.28) 0%, #2A1A0E 55%, #120A05 100%);
 }
 
 .canvas-vilavil {

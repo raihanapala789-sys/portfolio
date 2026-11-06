@@ -34,16 +34,16 @@ const PROJECTS_DATA = {
     ]
   },
   evostyle: {
-    title: "Evostyle Ad",
-    category: "High-Fashion Cinematic Commercial",
-    tagline: "Haute Couture Editorial Aesthetics & AI Fabric Simulation",
+    title: "School Admission Ad",
+    category: "Educational Campaign Ad",
+    tagline: "Inspiring Campus Journeys & Dynamic Student Life Commercial",
     tools: ["Kling AI", "ChatGPT", "CapCut"],
-    overview: "A luxury fashion concept film highlighting futuristic clothing silhouettes, draped silk motion, and editorial runway models. It explores how generative artificial intelligence can replace traditional high-cost studio photo/video shoots with runway-level precision.",
-    promptStrategy: "Prompt-engineered lighting setups modeled after Annie Leibovitz and Mario Testino studio techniques, combined with physics modifiers for silk and organza drapery.",
+    overview: "A vibrant, uplifting commercial crafted for school and academy admissions. Blending dynamic visual storytelling with emotional student moments, the campaign highlights interactive classrooms, STEM innovation labs, sports excellence, and creative arts to build parent confidence and boost admission inquiries.",
+    promptStrategy: "Carefully structured multi-scene prompts featuring sunlit modern campus architectures, authentic diverse student interactions, engaging teacher-student dynamics, and cinematic golden-hour sports track motion.",
     highlights: [
-      "Photorealistic textile and fabric motion without CGI rendering farms",
-      "Editorial color grading using cinematic LUTs in CapCut",
-      "Consistent model identity maintained across varied scene lighting"
+      "Inspiring visual narrative engineered to drive parent inquiry and enrollment",
+      "Dynamic campus motion graphics and seamless transition pacing",
+      "Warm emotional grading and synchronized voiceover sound design in CapCut"
     ]
   },
   vilavil: {
