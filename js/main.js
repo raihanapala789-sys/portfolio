@@ -37,7 +37,7 @@ const PROJECTS_DATA = {
     title: "School Admission Ad",
     category: "Educational Campaign Ad",
     tagline: "Inspiring Campus Journeys & Dynamic Student Life Commercial",
-    tools: ["Kling AI", "ChatGPT", "CapCut"],
+    tools: ["Seedance", "ChatGPT", "CapCut"],
     overview: "A vibrant, uplifting commercial crafted for school and academy admissions. Blending dynamic visual storytelling with emotional student moments, the campaign highlights interactive classrooms, STEM innovation labs, sports excellence, and creative arts to build parent confidence and boost admission inquiries.",
     promptStrategy: "Carefully structured multi-scene prompts featuring sunlit modern campus architectures, authentic diverse student interactions, engaging teacher-student dynamics, and cinematic golden-hour sports track motion.",
     highlights: [
