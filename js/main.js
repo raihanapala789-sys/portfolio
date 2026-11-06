@@ -7,7 +7,7 @@
 const PROJECTS_DATA = {
   abba: {
     title: "Abba Perfume",
-    category: "High-Fashion Cinematic Commercial",
+    category: "Luxury Perfume Commercial",
     tagline: "Sensory Olfactory Visual Storytelling via Generative Motion",
     videoUrl: "assets/abba-perfume.mp4",
     tools: ["Seedance", "ChatGPT", "CapCut"],
