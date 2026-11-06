@@ -8,7 +8,7 @@ const PROJECTS_DATA = {
   abba: {
     title: "Abba Perfume",
     category: "Luxury Perfume Commercial",
-    tagline: "Sensory Olfactory Visual Storytelling via Generative Motion",
+    tagline: "",
     videoUrl: "assets/abba-perfume.mp4",
     tools: ["Seedance", "ChatGPT", "CapCut"],
     overview: "A premium fragrance commercial project designed to evoke scent through visual motion. Using advanced AI image synthesis and video generation models, the commercial captures glowing amber liquid physics, golden particles, and macro bottle reflections in cinematic 4K detail.",
@@ -182,9 +182,11 @@ function openProjectModal(projectId) {
       <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--text-primary); margin: 0.6rem 0 0.3rem 0; font-weight: 800;">
         ${data.title}
       </h2>
-      <p style="font-size: 1rem; color: var(--gold-deep); font-weight: 600;">
-        ${data.tagline}
-      </p>
+      ${data.tagline ? `
+        <p style="font-size: 1rem; color: var(--gold-deep); font-weight: 600;">
+          ${data.tagline}
+        </p>
+      ` : ''}
     </div>
 
     <div style="background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: var(--radius-md); padding: 1.4rem; margin-bottom: 1.5rem;">
