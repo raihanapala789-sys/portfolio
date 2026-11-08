@@ -478,12 +478,93 @@ img {
 }
 
 .hero-grid {
-  display: flex;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: minmax(320px, 450px) 1.25fr;
   align-items: center;
+  gap: 3.5rem;
   position: relative;
   z-index: 2;
   width: 100%;
+}
+
+/* Hero Portrait Column - Left Editorial Visual (Completely Blended Border) */
+.hero-portrait-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.hero-portrait-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ambient Backlight Glow */
+.hero-portrait-ambient {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 110%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(251, 108, 0, 0.22) 0%, rgba(229, 205, 130, 0.1) 45%, transparent 70%);
+  filter: blur(40px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Portrait Frame - ZERO hard borders or outline */
+.hero-portrait-frame {
+  position: relative;
+  width: 100%;
+  z-index: 2;
+  display: block;
+  overflow: visible;
+}
+
+/* Portrait Image with Seamless Multi-Layer Edge Masking */
+.hero-portrait-img {
+  width: 100%;
+  height: auto;
+  max-height: 640px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  -webkit-mask-image: 
+    radial-gradient(ellipse 68% 75% at 50% 50%, #000000 32%, rgba(0, 0, 0, 0.85) 54%, rgba(0, 0, 0, 0.3) 74%, transparent 95%),
+    linear-gradient(to bottom, transparent 0%, #000000 10%, #000000 82%, transparent 100%);
+  mask-image: 
+    radial-gradient(ellipse 68% 75% at 50% 50%, #000000 32%, rgba(0, 0, 0, 0.85) 54%, rgba(0, 0, 0, 0.3) 74%, transparent 95%),
+    linear-gradient(to bottom, transparent 0%, #000000 10%, #000000 82%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  filter: contrast(1.03) brightness(0.97);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+}
+
+.hero-portrait-wrapper:hover .hero-portrait-img {
+  transform: scale(1.02);
+  filter: contrast(1.06) brightness(1.01);
+}
+
+/* Seamless Vignette Overlay - seamlessly melts studio tan into obsidian gold background */
+.hero-portrait-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: 
+    radial-gradient(ellipse 68% 75% at 50% 50%, transparent 34%, rgba(18, 10, 5, 0.48) 56%, rgba(18, 10, 5, 0.92) 78%, #120A05 94%),
+    linear-gradient(to bottom, #120A05 0%, transparent 14%, transparent 80%, #120A05 100%),
+    linear-gradient(to right, #120A05 0%, transparent 12%, transparent 84%, #120A05 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 77% at 50% 50%, #000000 55%, transparent 96%);
+  mask-image: radial-gradient(ellipse 70% 77% at 50% 50%, #000000 55%, transparent 96%);
 }
 
 .hero-content {
@@ -492,8 +573,8 @@ img {
   align-items: flex-start;
   text-align: left;
   gap: 1.6rem;
-  max-width: 720px;
-  margin-left: auto;
+  width: 100%;
+  max-width: 680px;
 }
 
 .hero-status-pill {
@@ -2157,9 +2238,26 @@ img {
    =================================================================== */
 @media (max-width: 1024px) {
   .hero-grid {
+    grid-template-columns: 1fr;
     justify-content: center;
     text-align: center;
-    gap: 2rem;
+    gap: 2.5rem;
+  }
+
+  .hero-portrait-col {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .hero-portrait-wrapper {
+    max-width: 340px;
+  }
+
+  .hero-portrait-img {
+    max-height: 480px;
   }
 
   .hero-content {
@@ -2201,6 +2299,14 @@ img {
 }
 
 @media (max-width: 768px) {
+  .hero-portrait-wrapper {
+    max-width: 280px;
+  }
+
+  .hero-portrait-img {
+    max-height: 380px;
+  }
+
   .nav-links {
     position: fixed;
     top: 74px;
