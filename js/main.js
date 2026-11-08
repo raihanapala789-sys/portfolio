@@ -59,6 +59,32 @@ const PROJECTS_DATA = {
       "Authentic blend of traditional churned craftsmanship and modern FMCG packaging",
       "Sensory sound design synced with energetic rhythmic editing in CapCut"
     ]
+  },
+  chocolate: {
+    title: "Velvet Chocolate Commercial",
+    category: "Luxury Confectionery Commercial",
+    tagline: "Sensory Indulgence & Velvety Molten Fluid Storytelling",
+    tools: ["Kling", "ChatGPT", "CapCut"],
+    overview: "A high-indulgence commercial engineered for luxury confectionery branding. The video captures slow-motion molten chocolate flows, crisp snaps of artisan bars, dusted cocoa clouds, and golden caramelized hazelnut cascades designed to stimulate appetite and elevate premium dessert positioning.",
+    promptStrategy: "Viscous fluid physics prompts with raytraced specular highlights, micro-surface chocolate sheen, macro depth-of-field, and warm decadent rim lighting.",
+    highlights: [
+      "Ultra-realistic molten chocolate and cocoa fluid dynamics",
+      "Macro-level texture fidelity and glossy surface reflection craft",
+      "Dynamic rhythmic editing with sensory acoustic sound design"
+    ]
+  },
+  perfumeModel: {
+    title: "Élixir Noir — Perfume Branding",
+    category: "Haute Parfumerie & Model Film",
+    tagline: "High-Fashion Editorial Model Storytelling for Prestige Fragrance",
+    tools: ["Seedance", "Claude", "CapCut"],
+    overview: "A luxury editorial fragrance campaign marrying high-fashion runway model cinematography with signature perfume aesthetics. Crafted to convey allure, elegance, and exclusivity through dramatic shadow play, silk movement, and atmospheric fragrance mist.",
+    promptStrategy: "Consistent high-fashion model prompt architecture, Annie Leibovitz-inspired contrast lighting, slow-motion billowing organza fabric, and micro-particle scent aura generation.",
+    highlights: [
+      "Consistent high-fashion editorial model identity across multiple cinematic camera angles",
+      "Volumetric scent mist dispersion and gold-flecked ambient particle dynamics",
+      "Chiaroscuro editorial lighting and atmospheric soundscape design in CapCut"
+    ]
   }
 };
 

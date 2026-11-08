@@ -1572,6 +1572,14 @@ img {
   background: radial-gradient(circle at center, #8C6D3B 0%, #2A2116 55%, #0F0D0B 100%);
 }
 
+.canvas-chocolate {
+  background: radial-gradient(circle at 45% 55%, #5C3215 0%, #2A1408 55%, #100602 100%);
+}
+
+.canvas-perfume-model {
+  background: radial-gradient(circle at 55% 45%, rgba(229, 205, 130, 0.25) 0%, #2A1A0E 50%, #0E0804 100%);
+}
+
 .canvas-overlay-tag {
   position: absolute;
   top: 15px;
