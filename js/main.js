@@ -37,6 +37,7 @@ const PROJECTS_DATA = {
     title: "School Admission Ad",
     category: "Educational Campaign Ad",
     tagline: "Inspiring Campus Journeys & Dynamic Student Life Commercial",
+    videoUrl: "assets/school-admission.mp4",
     tools: ["Seedance", "ChatGPT", "CapCut"],
     overview: "A vibrant, uplifting commercial crafted for school and academy admissions. Blending dynamic visual storytelling with emotional student moments, the campaign highlights interactive classrooms, STEM innovation labs, sports excellence, and creative arts to build parent confidence and boost admission inquiries.",
     promptStrategy: "Carefully structured multi-scene prompts featuring sunlit modern campus architectures, authentic diverse student interactions, engaging teacher-student dynamics, and cinematic golden-hour sports track motion.",
@@ -70,7 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initTiltEffect();
   initHeroTyping();
   initAboutBackgroundAnimation();
-  initServicesScrollAnimation();
 });
 
 /* ===================================================================
@@ -353,11 +353,6 @@ function initTiltEffect() {
 
   cards.forEach(card => {
     card.addEventListener("mousemove", (e) => {
-      // Don't tilt until card has animated into place
-      if ((card.classList.contains("slide-from-left") || card.classList.contains("slide-from-right")) && !card.classList.contains("animate-in")) {
-        return;
-      }
-
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -375,43 +370,6 @@ function initTiltEffect() {
       card.style.transform = "";
     });
   });
-}
-
-/* ===================================================================
-   SERVICES SCROLL ENTRANCE ANIMATION (Sliding in from Left & Right)
-   =================================================================== */
-function initServicesScrollAnimation() {
-  const cards = document.querySelectorAll(".services-grid .gold-card");
-  if (!cards.length) return;
-
-  // Ensure alternating left/right classes
-  cards.forEach((card, index) => {
-    if (!card.classList.contains("slide-from-left") && !card.classList.contains("slide-from-right")) {
-      card.classList.add(index % 2 === 0 ? "slide-from-left" : "slide-from-right");
-    }
-  });
-
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-in");
-            obs.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.12,
-        rootMargin: "0px 0px -40px 0px"
-      }
-    );
-
-    cards.forEach((card) => observer.observe(card));
-  } else {
-    // Fallback if browser doesn't support IntersectionObserver
-    cards.forEach((card) => card.classList.add("animate-in"));
-  }
 }
 
 /* ===================================================================
