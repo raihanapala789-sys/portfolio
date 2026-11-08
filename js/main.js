@@ -59,32 +59,6 @@ const PROJECTS_DATA = {
       "Authentic blend of traditional churned craftsmanship and modern FMCG packaging",
       "Sensory sound design synced with energetic rhythmic editing in CapCut"
     ]
-  },
-  chocolate: {
-    title: "Velvet Chocolate Commercial",
-    category: "Luxury Confectionery Commercial",
-    tagline: "Sensory Indulgence & Velvety Molten Fluid Storytelling",
-    tools: ["Kling", "ChatGPT", "CapCut"],
-    overview: "A high-indulgence commercial engineered for luxury confectionery branding. The video captures slow-motion molten chocolate flows, crisp snaps of artisan bars, dusted cocoa clouds, and golden caramelized hazelnut cascades designed to stimulate appetite and elevate premium dessert positioning.",
-    promptStrategy: "Viscous fluid physics prompts with raytraced specular highlights, micro-surface chocolate sheen, macro depth-of-field, and warm decadent rim lighting.",
-    highlights: [
-      "Ultra-realistic molten chocolate and cocoa fluid dynamics",
-      "Macro-level texture fidelity and glossy surface reflection craft",
-      "Dynamic rhythmic editing with sensory acoustic sound design"
-    ]
-  },
-  perfumeModel: {
-    title: "Élixir Noir — Perfume Branding",
-    category: "Haute Parfumerie & Model Film",
-    tagline: "High-Fashion Editorial Model Storytelling for Prestige Fragrance",
-    tools: ["Seedance", "Claude", "CapCut"],
-    overview: "A luxury editorial fragrance campaign marrying high-fashion runway model cinematography with signature perfume aesthetics. Crafted to convey allure, elegance, and exclusivity through dramatic shadow play, silk movement, and atmospheric fragrance mist.",
-    promptStrategy: "Consistent high-fashion model prompt architecture, Annie Leibovitz-inspired contrast lighting, slow-motion billowing organza fabric, and micro-particle scent aura generation.",
-    highlights: [
-      "Consistent high-fashion editorial model identity across multiple cinematic camera angles",
-      "Volumetric scent mist dispersion and gold-flecked ambient particle dynamics",
-      "Chiaroscuro editorial lighting and atmospheric soundscape design in CapCut"
-    ]
   }
 };
 
@@ -96,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initTiltEffect();
   initHeroTyping();
   initAboutBackgroundAnimation();
+  initServicesScrollAnimation();
 });
 
 /* ===================================================================
@@ -378,6 +353,11 @@ function initTiltEffect() {
 
   cards.forEach(card => {
     card.addEventListener("mousemove", (e) => {
+      // Don't tilt until card has animated into place
+      if ((card.classList.contains("slide-from-left") || card.classList.contains("slide-from-right")) && !card.classList.contains("animate-in")) {
+        return;
+      }
+
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -395,6 +375,43 @@ function initTiltEffect() {
       card.style.transform = "";
     });
   });
+}
+
+/* ===================================================================
+   SERVICES SCROLL ENTRANCE ANIMATION (Sliding in from Left & Right)
+   =================================================================== */
+function initServicesScrollAnimation() {
+  const cards = document.querySelectorAll(".services-grid .gold-card");
+  if (!cards.length) return;
+
+  // Ensure alternating left/right classes
+  cards.forEach((card, index) => {
+    if (!card.classList.contains("slide-from-left") && !card.classList.contains("slide-from-right")) {
+      card.classList.add(index % 2 === 0 ? "slide-from-left" : "slide-from-right");
+    }
+  });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-in");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px"
+      }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+  } else {
+    // Fallback if browser doesn't support IntersectionObserver
+    cards.forEach((card) => card.classList.add("animate-in"));
+  }
 }
 
 /* ===================================================================
