@@ -512,16 +512,16 @@ img {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 110%;
-  height: 110%;
+  width: 115%;
+  height: 115%;
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(251, 108, 0, 0.22) 0%, rgba(229, 205, 130, 0.1) 45%, transparent 70%);
-  filter: blur(40px);
+  background: radial-gradient(ellipse at center, rgba(251, 108, 0, 0.25) 0%, rgba(229, 205, 130, 0.12) 42%, transparent 70%);
+  filter: blur(50px);
   z-index: 1;
   pointer-events: none;
 }
 
-/* Portrait Frame - ZERO hard borders or outline */
+/* Portrait Frame */
 .hero-portrait-frame {
   position: relative;
   width: 100%;
@@ -530,42 +530,23 @@ img {
   overflow: visible;
 }
 
-/* Portrait Image with Seamless Multi-Layer Edge Masking */
+/* Portrait Image - Isolated Transparent Cutout with Organic Drop Shadow */
 .hero-portrait-img {
   width: 100%;
   height: auto;
-  max-height: 640px;
-  object-fit: cover;
-  object-position: center top;
+  max-height: 650px;
+  object-fit: contain;
+  object-position: center bottom;
   display: block;
-  -webkit-mask-image: 
-    radial-gradient(ellipse 68% 75% at 50% 50%, #000000 32%, rgba(0, 0, 0, 0.85) 54%, rgba(0, 0, 0, 0.3) 74%, transparent 95%),
-    linear-gradient(to bottom, transparent 0%, #000000 10%, #000000 82%, transparent 100%);
-  mask-image: 
-    radial-gradient(ellipse 68% 75% at 50% 50%, #000000 32%, rgba(0, 0, 0, 0.85) 54%, rgba(0, 0, 0, 0.3) 74%, transparent 95%),
-    linear-gradient(to bottom, transparent 0%, #000000 10%, #000000 82%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
-  filter: contrast(1.03) brightness(0.97);
+  filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.75)) drop-shadow(0 4px 18px rgba(251, 108, 0, 0.18));
+  -webkit-mask-image: linear-gradient(to bottom, #000 84%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 84%, transparent 99%);
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
 }
 
 .hero-portrait-wrapper:hover .hero-portrait-img {
-  transform: scale(1.02);
-  filter: contrast(1.06) brightness(1.01);
-}
-
-/* Seamless Vignette Overlay - seamlessly melts studio tan into obsidian gold background */
-.hero-portrait-vignette {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: 
-    radial-gradient(ellipse 68% 75% at 50% 50%, transparent 34%, rgba(18, 10, 5, 0.48) 56%, rgba(18, 10, 5, 0.92) 78%, #120A05 94%),
-    linear-gradient(to bottom, #120A05 0%, transparent 14%, transparent 80%, #120A05 100%),
-    linear-gradient(to right, #120A05 0%, transparent 12%, transparent 84%, #120A05 100%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 77% at 50% 50%, #000000 55%, transparent 96%);
-  mask-image: radial-gradient(ellipse 70% 77% at 50% 50%, #000000 55%, transparent 96%);
+  transform: scale(1.025);
+  filter: drop-shadow(0 32px 60px rgba(0, 0, 0, 0.85)) drop-shadow(0 6px 24px rgba(229, 205, 130, 0.28));
 }
 
 .hero-content {
