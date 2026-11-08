@@ -17,6 +17,8 @@ A luxury editorial portfolio crafted with cinematic motion, responsive architect
 2. **Plus Point Cleaning Service** — Professional Residential & Commercial Cleaning Ad (*Wan*, *Claude*, *CapCut*)
 3. **School Admission Ad** — Inspiring Academic & Institutional Commercial (*Seedance*, *ChatGPT*, *CapCut*)
 4. **Buttermilk Ad** — Sensory FMCG Dairy & Beverage Commercial (*OmniFlash*, *Claude*, *CapCut*)
+5. **Chocolate Action Trailer** — High-Octane FMCG Confectionery Commercial (*Kling*, *ChatGPT*, *CapCut*)
+6. **Jasper Commercial** — Sleek Brand Campaign Commercial (*Wan*, *Claude*, *CapCut*)
 
 ---
 

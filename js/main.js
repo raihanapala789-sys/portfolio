@@ -60,6 +60,34 @@ const PROJECTS_DATA = {
       "Authentic blend of traditional churned craftsmanship and modern FMCG packaging",
       "Sensory sound design synced with energetic rhythmic editing in CapCut"
     ]
+  },
+  chocolate: {
+    title: "Chocolate Action Trailer",
+    category: "FMCG Confectionery Commercial",
+    tagline: "High-Octane Cinematic Action & Molten Chocolate Visual Dynamics",
+    videoUrl: "assets/chocolate-commercial.mp4",
+    tools: ["Kling", "ChatGPT", "CapCut"],
+    overview: "A cinematic, fast-paced commercial trailer crafted to transform chocolate confectionery into a high-octane sensory action spectacle. Featuring explosive chocolate shards, cascading molten ganache, and dramatic hyper-stylized lighting designed for intense consumer craving and high viral engagement.",
+    promptStrategy: "Dynamic physics-driven prompt choreography specifying macro slow-motion fluid cascades, glossy liquid cocoa reflections, explosive wafer shattering, and intense cinematic chiaroscuro contrast.",
+    highlights: [
+      "Photorealistic viscous chocolate fluid cascades and shard impact physics",
+      "Action-trailer pacing synchronized with high-impact audio sound design",
+      "Engineered for sub-3-second viral digital feed retention and appetite stimulation"
+    ]
+  },
+  jasper: {
+    title: "Jasper Commercial",
+    category: "Brand Campaign Commercial",
+    tagline: "Modern Lifestyle Storytelling & Premium Brand Aesthetics",
+    videoUrl: "assets/jasper-commercial.mp4",
+    tools: ["Wan", "Claude", "CapCut"],
+    overview: "A sleek, contemporary brand commercial designed for Jasper. Combining cinematic camera sweeps, polished product styling, and emotive character narrative to elevate brand prestige and connect with modern lifestyle consumers.",
+    promptStrategy: "Narrative prompt architecture balancing urban architectural backdrops, refined lighting setups, seamless character continuity, and smooth generative tracking shots.",
+    highlights: [
+      "Consistent high-end character identity and modern aesthetic atmosphere",
+      "Seamless camera motion transitions and editorial color grading",
+      "Dynamic multi-platform delivery optimized for modern digital campaigns"
+    ]
   }
 };
 
