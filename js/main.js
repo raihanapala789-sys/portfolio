@@ -6,7 +6,7 @@
 // Project Showcase Data
 const PROJECTS_DATA = {
   abba: {
-    title: "Abba Perfume",
+    title: "",
     category: "Luxury Perfume Commercial",
     tagline: "",
     videoUrl: "assets/abba-perfume.mp4",
@@ -34,8 +34,8 @@ const PROJECTS_DATA = {
     ]
   },
   evostyle: {
-    title: "Educational Campaign Ad",
-    category: "Academic & Campus Commercial",
+    title: "School Admission Ad",
+    category: "Educational Campaign Ad",
     tagline: "Inspiring Campus Journeys & Dynamic Student Life Commercial",
     videoUrl: "assets/school-admission.mp4",
     tools: ["Seedance", "ChatGPT", "CapCut"],
@@ -208,9 +208,11 @@ function openProjectModal(projectId) {
 
     <div style="margin-bottom: 1.5rem;">
       <span class="metallic-badge">${data.category}</span>
-      <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--text-primary); margin: 0.6rem 0 0.3rem 0; font-weight: 800;">
-        ${data.title}
-      </h2>
+      ${data.title ? `
+        <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--text-primary); margin: 0.6rem 0 0.3rem 0; font-weight: 800;">
+          ${data.title}
+        </h2>
+      ` : ''}
       ${data.tagline ? `
         <p style="font-size: 1rem; color: var(--gold-deep); font-weight: 600;">
           ${data.tagline}
