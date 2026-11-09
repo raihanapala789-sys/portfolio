@@ -66,7 +66,7 @@ const PROJECTS_DATA = {
     category: "FMCG Confectionery Commercial",
     tagline: "High-Octane Cinematic Action & Molten Chocolate Visual Dynamics",
     videoUrl: "assets/chocolate-commercial.mp4",
-    tools: ["Kling", "ChatGPT", "CapCut"],
+    tools: ["OmniFlash", "ChatGPT", "CapCut"],
     overview: "A cinematic, fast-paced commercial trailer crafted to transform chocolate confectionery into a high-octane sensory action spectacle. Featuring explosive chocolate shards, cascading molten ganache, and dramatic hyper-stylized lighting designed for intense consumer craving and high viral engagement.",
     promptStrategy: "Dynamic physics-driven prompt choreography specifying macro slow-motion fluid cascades, glossy liquid cocoa reflections, explosive wafer shattering, and intense cinematic chiaroscuro contrast.",
     highlights: [
