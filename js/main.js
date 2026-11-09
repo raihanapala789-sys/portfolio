@@ -132,14 +132,27 @@ function initNavigation() {
   // Mobile menu toggle
   if (navToggle && navLinks) {
     navToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("open");
+      const isOpen = navLinks.classList.toggle("open");
+      navToggle.classList.toggle("active", isOpen);
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     });
 
     // Close menu when clicking a link
     links.forEach(link => {
       link.addEventListener("click", () => {
         navLinks.classList.remove("open");
+        navToggle.classList.remove("active");
+        navToggle.setAttribute("aria-expanded", "false");
       });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (navLinks.classList.contains("open") && !siteHeader.contains(e.target)) {
+        navLinks.classList.remove("open");
+        navToggle.classList.remove("active");
+        navToggle.setAttribute("aria-expanded", "false");
+      }
     });
   }
 }
@@ -209,7 +222,7 @@ function openProjectModal(projectId) {
 
     <div style="margin-bottom: 1.5rem;">
       <span class="metallic-badge">${data.category}</span>
-      <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--text-primary); margin: 0.6rem 0 0.3rem 0; font-weight: 800;">
+      <h2 style="font-family: var(--font-serif); font-size: clamp(1.4rem, 4.5vw, 2.2rem); color: var(--text-primary); margin: 0.6rem 0 0.3rem 0; font-weight: 800; line-height: 1.2;">
         ${data.title}
       </h2>
       ${data.tagline ? `
