@@ -6,8 +6,8 @@
 // Project Showcase Data
 const PROJECTS_DATA = {
   abba: {
-    title: "Luxury Perfume Commercial",
-    category: "Luxury & Fragrance",
+    title: "Abba Perfume",
+    category: "Luxury Perfume Commercial",
     tagline: "",
     videoUrl: "assets/abba-perfume.mp4",
     tools: ["Seedance", "ChatGPT", "CapCut"],
@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initTiltEffect();
   initHeroTyping();
   initAboutBackgroundAnimation();
+  initServicesScrollAnimation();
 });
 
 /* ===================================================================
@@ -208,11 +209,9 @@ function openProjectModal(projectId) {
 
     <div style="margin-bottom: 1.5rem;">
       <span class="metallic-badge">${data.category}</span>
-      ${data.title ? `
-        <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--text-primary); margin: 0.6rem 0 0.3rem 0; font-weight: 800;">
-          ${data.title}
-        </h2>
-      ` : ''}
+      <h2 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--text-primary); margin: 0.6rem 0 0.3rem 0; font-weight: 800;">
+        ${data.title}
+      </h2>
       ${data.tagline ? `
         <p style="font-size: 1rem; color: var(--gold-deep); font-weight: 600;">
           ${data.tagline}
@@ -383,6 +382,11 @@ function initTiltEffect() {
 
   cards.forEach(card => {
     card.addEventListener("mousemove", (e) => {
+      // Don't tilt until card has animated into place
+      if ((card.classList.contains("slide-from-left") || card.classList.contains("slide-from-right")) && !card.classList.contains("animate-in")) {
+        return;
+      }
+
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -400,6 +404,43 @@ function initTiltEffect() {
       card.style.transform = "";
     });
   });
+}
+
+/* ===================================================================
+   SERVICES SCROLL ENTRANCE ANIMATION (Sliding in from 2 Sides)
+   =================================================================== */
+function initServicesScrollAnimation() {
+  const cards = document.querySelectorAll(".services-grid .gold-card");
+  if (!cards.length) return;
+
+  // Alternate left and right entry classes
+  cards.forEach((card, index) => {
+    if (!card.classList.contains("slide-from-left") && !card.classList.contains("slide-from-right")) {
+      card.classList.add(index % 2 === 0 ? "slide-from-left" : "slide-from-right");
+    }
+  });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-in");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px"
+      }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+  } else {
+    // Fallback if browser doesn't support IntersectionObserver
+    cards.forEach((card) => card.classList.add("animate-in"));
+  }
 }
 
 /* ===================================================================
