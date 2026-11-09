@@ -6,8 +6,8 @@
 // Project Showcase Data
 const PROJECTS_DATA = {
   abba: {
-    title: "",
-    category: "Luxury Perfume Commercial",
+    title: "Luxury Perfume Commercial",
+    category: "Luxury & Fragrance",
     tagline: "",
     videoUrl: "assets/abba-perfume.mp4",
     tools: ["Seedance", "ChatGPT", "CapCut"],
