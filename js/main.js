@@ -34,8 +34,8 @@ const PROJECTS_DATA = {
     ]
   },
   evostyle: {
-    title: "School Admission Ad",
-    category: "Educational Campaign Ad",
+    title: "Educational Campaign Ad",
+    category: "Academic & Campus Commercial",
     tagline: "Inspiring Campus Journeys & Dynamic Student Life Commercial",
     videoUrl: "assets/school-admission.mp4",
     tools: ["Seedance", "ChatGPT", "CapCut"],
