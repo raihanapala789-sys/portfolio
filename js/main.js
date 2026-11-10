@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroTyping();
   initAboutBackgroundAnimation();
   initServicesScrollAnimation();
+  initToolsStaggerAnimation();
 });
 
 /* ===================================================================
@@ -549,6 +550,53 @@ function initServicesScrollAnimation() {
   } else {
     // Fallback if browser doesn't support IntersectionObserver
     cards.forEach((card) => card.classList.add("animate-in"));
+  }
+}
+
+/* ===================================================================
+   TOOLS STAGGER ENTRANCE ANIMATION (Tools enter one by one per box)
+   =================================================================== */
+function initToolsStaggerAnimation() {
+  const toolCards = document.querySelectorAll(".tools-categories .tool-group-card");
+  if (!toolCards.length) return;
+
+  function updateStaggerDelays() {
+    const isMobile = window.innerWidth <= 768;
+    toolCards.forEach((card, boxIndex) => {
+      const pills = card.querySelectorAll(".tool-item-pill");
+      pills.forEach((pill, itemIndex) => {
+        // Box offset for desktop cascade; individual box offset on mobile
+        const boxOffset = isMobile ? 0.04 : (boxIndex * 0.16);
+        const delay = boxOffset + (itemIndex * 0.12) + 0.08;
+        pill.style.setProperty("--stagger-delay", `${delay.toFixed(2)}s`);
+      });
+    });
+  }
+
+  updateStaggerDelays();
+  window.addEventListener("resize", () => {
+    updateStaggerDelays();
+  });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("stagger-active");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px"
+      }
+    );
+
+    toolCards.forEach((card) => observer.observe(card));
+  } else {
+    toolCards.forEach((card) => card.classList.add("stagger-active"));
   }
 }
 
