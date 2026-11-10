@@ -517,17 +517,28 @@ function initTiltEffect() {
 }
 
 /* ===================================================================
-   SERVICES SCROLL ENTRANCE ANIMATION (Sliding in from 2 Sides)
+   SERVICES SCROLL ENTRANCE ANIMATION (Centered on Mobile, 2 Sides on Desktop)
    =================================================================== */
 function initServicesScrollAnimation() {
   const cards = document.querySelectorAll(".services-grid .gold-card");
   if (!cards.length) return;
 
-  // Alternate left and right entry classes
-  cards.forEach((card, index) => {
-    if (!card.classList.contains("slide-from-left") && !card.classList.contains("slide-from-right")) {
-      card.classList.add(index % 2 === 0 ? "slide-from-left" : "slide-from-right");
-    }
+  function updateCardEntranceClasses() {
+    const isMobile = window.innerWidth <= 768;
+    cards.forEach((card, index) => {
+      if (isMobile) {
+        card.classList.remove("slide-from-left", "slide-from-right");
+        card.classList.add("slide-from-center");
+      } else {
+        card.classList.remove("slide-from-center");
+        card.classList.add(index % 2 === 0 ? "slide-from-left" : "slide-from-right");
+      }
+    });
+  }
+
+  updateCardEntranceClasses();
+  window.addEventListener("resize", () => {
+    updateCardEntranceClasses();
   });
 
   if ("IntersectionObserver" in window) {
