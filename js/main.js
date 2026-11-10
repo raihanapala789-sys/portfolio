@@ -278,6 +278,18 @@ function openProjectModal(projectId) {
 
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
+
+  // Ensure modal video plays smoothly with autoplay policy fallback
+  const modalVideo = modal.querySelector("video");
+  if (modalVideo) {
+    modalVideo.currentTime = 0;
+    const playPromise = modalVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay with audio deferred by browser; user can tap the player controls
+      });
+    }
+  }
 }
 
 function closeProjectModal() {
