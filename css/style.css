@@ -1725,6 +1725,7 @@ img {
   aspect-ratio: 16/9;
   background: #181411;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .project-thumbnail-art {
@@ -1746,6 +1747,7 @@ img {
   inset: 0;
   display: block;
   z-index: 1;
+  background-color: #120A05;
   transition: transform var(--transition-slow);
 }
 
@@ -1813,11 +1815,66 @@ img {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
   opacity: 0.85;
   transition: all var(--transition-normal);
+  z-index: 2;
+  cursor: pointer;
 }
 
 .project-card:hover .play-prompt-btn {
   transform: translate(-50%, -50%) scale(1.1);
   opacity: 1;
+}
+
+/* Playing state: play button hides for unobstructed video view */
+.project-thumbnail-wrapper.is-playing .play-prompt-btn {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.7);
+  pointer-events: none;
+}
+
+/* Hovering while playing reveals the pause control */
+.project-thumbnail-wrapper.is-playing:hover .play-prompt-btn {
+  opacity: 0.95;
+  transform: translate(-50%, -50%) scale(1.05);
+  pointer-events: auto;
+  background: rgba(18, 10, 5, 0.88);
+  color: var(--gold-primary);
+  border: 1px solid var(--gold-border);
+  backdrop-filter: blur(8px);
+}
+
+/* Floating audio toggle button */
+.card-sound-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(18, 10, 5, 0.82);
+  border: 1px solid var(--gold-border);
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.88rem;
+  backdrop-filter: blur(8px);
+  z-index: 4;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.project-thumbnail-wrapper.is-playing .card-sound-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.card-sound-btn:hover {
+  background: var(--gold-primary);
+  color: #120A05;
+  transform: scale(1.12);
+  border-color: var(--gold-light);
 }
 
 .project-info {

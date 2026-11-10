@@ -204,9 +204,93 @@ function initProjectFilters() {
 }
 
 /* ===================================================================
+   EXPERIMENT CARD VIDEO TAP-TO-PLAY & AUDIO TOGGLE
+   =================================================================== */
+function toggleCardVideo(wrapper, event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  
+  const video = wrapper.querySelector(".project-card-video");
+  const playBtn = wrapper.querySelector(".play-prompt-btn");
+  if (!video) return;
+
+  // Pause any other playing card videos so only one card plays at a time
+  document.querySelectorAll(".project-thumbnail-wrapper.is-playing").forEach((otherWrapper) => {
+    if (otherWrapper !== wrapper) {
+      const otherVideo = otherWrapper.querySelector(".project-card-video");
+      if (otherVideo && !otherVideo.paused) {
+        otherVideo.pause();
+      }
+      otherWrapper.classList.remove("is-playing");
+      const otherBtn = otherWrapper.querySelector(".play-prompt-btn");
+      if (otherBtn) {
+        otherBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+      }
+    }
+  });
+
+  if (video.paused) {
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          wrapper.classList.add("is-playing");
+          if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        })
+        .catch(() => {
+          // Fallback if browser restricts unmuted playback
+          video.muted = true;
+          video.play().then(() => {
+            wrapper.classList.add("is-playing");
+            if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+          });
+        });
+    }
+  } else {
+    video.pause();
+    wrapper.classList.remove("is-playing");
+    if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+  }
+
+  video.onended = () => {
+    wrapper.classList.remove("is-playing");
+    if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+    video.currentTime = 0;
+  };
+}
+
+function toggleCardAudio(btn, event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  const wrapper = btn.closest(".project-thumbnail-wrapper");
+  if (!wrapper) return;
+  const video = wrapper.querySelector(".project-card-video");
+  if (!video) return;
+
+  video.muted = !video.muted;
+  btn.innerHTML = video.muted
+    ? '<i class="fa-solid fa-volume-xmark"></i>'
+    : '<i class="fa-solid fa-volume-high"></i>';
+  btn.setAttribute("title", video.muted ? "Unmute" : "Mute");
+  btn.setAttribute("aria-label", video.muted ? "Unmute" : "Mute");
+}
+
+/* ===================================================================
    PROJECT MODAL
    =================================================================== */
 function openProjectModal(projectId) {
+  // Pause any playing card videos in background
+  document.querySelectorAll(".project-card-video").forEach((v) => {
+    if (!v.paused) v.pause();
+  });
+  document.querySelectorAll(".project-thumbnail-wrapper.is-playing").forEach((w) => {
+    w.classList.remove("is-playing");
+    const btn = w.querySelector(".play-prompt-btn");
+    if (btn) btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+  });
+
   const data = PROJECTS_DATA[projectId];
   if (!data) return;
 
