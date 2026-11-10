@@ -98,6 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initProjectFilters();
   initTiltEffect();
   initHeroTyping();
+  initHeroParticles();
+  initHeroPortraitParallax();
   initAboutBackgroundAnimation();
   initServicesScrollAnimation();
 });
@@ -776,4 +778,235 @@ function initAboutBackgroundAnimation() {
   }
 
   animationFrameId = requestAnimationFrame(render);
+}
+
+/* ===================================================================
+   HERO INTERACTIVE GOLDEN PARTICLES (Stardust Bokeh & Mouse Glow)
+   =================================================================== */
+function initHeroParticles() {
+  const canvas = document.getElementById("heroParticlesCanvas");
+  const heroSection = document.getElementById("hero");
+  if (!canvas || !heroSection) return;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let animationFrameId = null;
+  let isVisible = true;
+
+  const mouse = {
+    x: -9999,
+    y: -9999,
+    radius: 130,
+    active: false
+  };
+
+  const colors = [
+    { r: 229, g: 205, b: 130 }, // Champagne Gold
+    { r: 251, g: 108, b: 0 },   // Solar Amber
+    { r: 255, g: 245, b: 219 }, // Radiant Warm Ivory
+    { r: 245, g: 180, b: 80 }   // Deep Honey Gold
+  ];
+
+  const PARTICLE_COUNT = window.innerWidth < 768 ? 20 : 44;
+  let particles = [];
+
+  class StardustParticle {
+    constructor() {
+      this.reset(true);
+    }
+
+    reset(initial = false) {
+      this.x = Math.random() * width;
+      this.y = initial ? Math.random() * height : height + Math.random() * 20;
+      this.baseRadius = 0.8 + Math.random() * 2.2;
+      this.radius = this.baseRadius;
+      this.color = colors[Math.floor(Math.random() * colors.length)];
+      this.vx = (Math.random() - 0.5) * 0.35;
+      this.vy = -(0.2 + Math.random() * 0.45);
+      this.baseAlpha = 0.25 + Math.random() * 0.55;
+      this.alpha = this.baseAlpha;
+      this.twinkleSpeed = 0.015 + Math.random() * 0.035;
+      this.twinklePhase = Math.random() * Math.PI * 2;
+    }
+
+    update() {
+      this.twinklePhase += this.twinkleSpeed;
+      this.alpha = Math.max(0.12, Math.min(0.9, this.baseAlpha + Math.sin(this.twinklePhase) * 0.28));
+
+      // Upward drift
+      this.x += this.vx;
+      this.y += this.vy;
+
+      // Mouse gentle repulsion
+      if (mouse.active) {
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < mouse.radius && dist > 0) {
+          const force = (1 - dist / mouse.radius) * 1.8;
+          this.x += (dx / dist) * force;
+          this.y += (dy / dist) * force;
+        }
+      }
+
+      // Loop boundaries
+      if (this.y < -20) {
+        this.reset(false);
+      }
+      if (this.x < -20) this.x = width + 20;
+      if (this.x > width + 20) this.x = -20;
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.alpha})`;
+      ctx.shadowColor = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.alpha * 0.75})`;
+      ctx.shadowBlur = this.radius > 1.8 ? 10 : 5;
+      ctx.fill();
+    }
+  }
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = heroSection.getBoundingClientRect();
+    width = rect.width;
+    height = rect.height;
+
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+  }
+
+  function initParticles() {
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(new StardustParticle());
+    }
+  }
+
+  resize();
+  initParticles();
+
+  // Resize listener
+  let resizeTimeout = null;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      resize();
+    }, 150);
+  });
+
+  // Mouse interaction on hero
+  heroSection.addEventListener("mousemove", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    mouse.active = true;
+  });
+
+  heroSection.addEventListener("mouseleave", () => {
+    mouse.active = false;
+  });
+
+  function render() {
+    if (!isVisible) return;
+
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+    }
+
+    animationFrameId = requestAnimationFrame(render);
+  }
+
+  // IntersectionObserver to pause loop when hero is out of view
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (!isVisible) {
+              isVisible = true;
+              animationFrameId = requestAnimationFrame(render);
+            }
+          } else {
+            isVisible = false;
+            if (animationFrameId) {
+              cancelAnimationFrame(animationFrameId);
+              animationFrameId = null;
+            }
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(heroSection);
+  }
+
+  animationFrameId = requestAnimationFrame(render);
+}
+
+/* ===================================================================
+   HERO PORTRAIT 3D PARALLAX (Subtle High-Fashion Editorial Tilt)
+   =================================================================== */
+function initHeroPortraitParallax() {
+  const heroSection = document.getElementById("hero");
+  const wrapper = document.getElementById("heroPortraitWrapper");
+  if (!heroSection || !wrapper) return;
+
+  // Only enable on desktop pointer devices
+  const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+  if (!isFinePointer || window.innerWidth < 768) return;
+
+  let currentTiltX = 0;
+  let currentTiltY = 0;
+  let targetTiltX = 0;
+  let targetTiltY = 0;
+  let rafId = null;
+
+  function updateTilt() {
+    currentTiltX += (targetTiltX - currentTiltX) * 0.08;
+    currentTiltY += (targetTiltY - currentTiltY) * 0.08;
+
+    wrapper.style.transform = `perspective(1000px) rotateX(${currentTiltX.toFixed(2)}deg) rotateY(${currentTiltY.toFixed(2)}deg)`;
+
+    if (Math.abs(targetTiltX - currentTiltX) > 0.01 || Math.abs(targetTiltY - currentTiltY) > 0.01) {
+      rafId = requestAnimationFrame(updateTilt);
+    } else {
+      rafId = null;
+    }
+  }
+
+  heroSection.addEventListener("mousemove", (e) => {
+    const rect = heroSection.getBoundingClientRect();
+    const xRatio = (e.clientX - rect.left) / rect.width - 0.5;
+    const yRatio = (e.clientY - rect.top) / rect.height - 0.5;
+
+    // Max 8 degrees tilt
+    targetTiltY = xRatio * 8;
+    targetTiltX = -yRatio * 8;
+
+    if (!rafId) {
+      rafId = requestAnimationFrame(updateTilt);
+    }
+  });
+
+  heroSection.addEventListener("mouseleave", () => {
+    targetTiltX = 0;
+    targetTiltY = 0;
+    if (!rafId) {
+      rafId = requestAnimationFrame(updateTilt);
+    }
+  });
 }
