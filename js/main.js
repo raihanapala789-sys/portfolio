@@ -1,6 +1,6 @@
 /**
- * RAIHANATH. — AI CONTENT CREATOR PORTFOLIO
- * Obsidian Crimson-Noir Interactive Controller
+ * RAIHANATH — AI CONTENT CREATOR PORTFOLIO
+ * Main JavaScript Controller
  */
 
 // Project Showcase Data
@@ -8,7 +8,7 @@ const PROJECTS_DATA = {
   abba: {
     title: "Abba Perfume",
     category: "Luxury Perfume Commercial",
-    tagline: "Sensory Liquid Motion & Golden Hour AI Fragrance Storytelling",
+    tagline: "",
     videoUrl: "assets/abba-perfume.mp4",
     tools: ["Seedance", "ChatGPT", "CapCut"],
     overview: "A premium fragrance commercial project designed to evoke scent through visual motion. Using advanced AI image synthesis and video generation models, the commercial captures glowing amber liquid physics, golden particles, and macro bottle reflections in cinematic 4K detail.",
@@ -91,123 +91,27 @@ const PROJECTS_DATA = {
   }
 };
 
+// Initialize Application
 document.addEventListener("DOMContentLoaded", () => {
-  initPreloader();
-  initWarpCanvas();
+  initTheme();
   initNavigation();
-  initHeroTyping();
   initProjectFilters();
-  initHangingBadgeTilt();
-  initServicesAccordion();
+  initTiltEffect();
+  initHeroTyping();
+  initAboutBackgroundAnimation();
+  initServicesScrollAnimation();
+  initWhyScrollAnimation();
   initToolsStaggerAnimation();
-  initCardTilt();
+  initExperimentsScrollAnimation();
+  initScrollParallaxEffects();
 });
 
 /* ===================================================================
-   PRELOADER SEQUENCE (00 -> 100 + LASER BAR)
+   THEME CONTROLLER (Permanent Night Mode / Obsidian Gold)
    =================================================================== */
-function initPreloader() {
-  const preloader = document.getElementById("preloader");
-  const counter = document.getElementById("preloaderCounter");
-  const beam = document.getElementById("preloaderBeam");
-  if (!preloader || !counter || !beam) return;
-
-  let progress = 0;
-  const interval = setInterval(() => {
-    progress += Math.floor(Math.random() * 14) + 10;
-    if (progress >= 100) {
-      progress = 100;
-      clearInterval(interval);
-      counter.textContent = "100";
-      beam.style.width = "100%";
-      setTimeout(() => preloader.classList.add("done"), 220);
-      return;
-    }
-    counter.textContent = String(progress).padStart(2, "0");
-    beam.style.width = `${progress}%`;
-  }, 55);
-
-  // Failsafe dismiss after 1.3s
-  setTimeout(() => {
-    clearInterval(interval);
-    counter.textContent = "100";
-    beam.style.width = "100%";
-    preloader.classList.add("done");
-  }, 1300);
-}
-
-/* ===================================================================
-   WARP / CRIMSON EMBER SPACE CANVAS
-   =================================================================== */
-function initWarpCanvas() {
-  const canvas = document.getElementById("warpCanvas");
-  if (!canvas) return;
-
-  const ctx = canvas.getContext("2d");
-  let width = 0;
-  let height = 0;
-  const pointer = { x: 0, y: 0, active: false };
-
-  function resize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  window.addEventListener("resize", resize);
-  resize();
-
-  window.addEventListener("mousemove", (e) => {
-    pointer.x = (e.clientX / Math.max(width, 1) - 0.5) * 18;
-    pointer.y = (e.clientY / Math.max(height, 1) - 0.5) * 18;
-    pointer.active = true;
-  });
-
-  const COUNT = width < 768 ? 38 : 70;
-  const particles = Array.from({ length: COUNT }, () => ({
-    x: Math.random() * width,
-    y: Math.random() * height,
-    r: Math.random() * 1.8 + 0.6,
-    vy: -(Math.random() * 0.35 + 0.12),
-    vx: (Math.random() - 0.5) * 0.18,
-    crimson: Math.random() > 0.42,
-    alpha: Math.random() * 0.48 + 0.2
-  }));
-
-  function frame() {
-    ctx.clearRect(0, 0, width, height);
-
-    for (const p of particles) {
-      p.x += p.vx + (pointer.active ? pointer.x * 0.015 : 0);
-      p.y += p.vy + (pointer.active ? pointer.y * 0.015 : 0);
-
-      if (p.y < -10) { p.y = height + 10; p.x = Math.random() * width; }
-      if (p.y > height + 10) { p.y = -10; }
-      if (p.x < -10) { p.x = width + 10; }
-      if (p.x > width + 10) { p.x = -10; }
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.crimson
-        ? `rgba(255, 23, 54, ${p.alpha})`
-        : `rgba(255, 255, 255, ${p.alpha * 0.65})`;
-      ctx.fill();
-
-      if (p.crimson) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * 3.2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 23, 54, ${p.alpha * 0.14})`;
-        ctx.fill();
-      }
-    }
-
-    requestAnimationFrame(frame);
-  }
-
-  requestAnimationFrame(frame);
+function initTheme() {
+  document.documentElement.setAttribute("data-theme", "dark");
+  localStorage.setItem("raihanath_theme", "dark");
 }
 
 /* ===================================================================
@@ -219,13 +123,17 @@ function initNavigation() {
   const navLinks = document.getElementById("navLinks");
   const links = document.querySelectorAll(".nav-link");
 
+  // Sticky header shadow on scroll
   window.addEventListener("scroll", () => {
-    if (siteHeader) {
-      siteHeader.classList.toggle("scrolled", window.scrollY > 28);
+    if (window.scrollY > 30) {
+      siteHeader.classList.add("scrolled");
+    } else {
+      siteHeader.classList.remove("scrolled");
     }
     updateActiveNavLink();
   });
 
+  // Mobile menu toggle
   if (navToggle && navLinks) {
     navToggle.addEventListener("click", () => {
       const isOpen = navLinks.classList.toggle("open");
@@ -233,7 +141,8 @@ function initNavigation() {
       navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     });
 
-    links.forEach((link) => {
+    // Close menu when clicking a link
+    links.forEach(link => {
       link.addEventListener("click", () => {
         navLinks.classList.remove("open");
         navToggle.classList.remove("active");
@@ -241,8 +150,9 @@ function initNavigation() {
       });
     });
 
+    // Close menu when clicking outside
     document.addEventListener("click", (e) => {
-      if (navLinks.classList.contains("open") && siteHeader && !siteHeader.contains(e.target)) {
+      if (navLinks.classList.contains("open") && !siteHeader.contains(e.target)) {
         navLinks.classList.remove("open");
         navToggle.classList.remove("active");
         navToggle.setAttribute("aria-expanded", "false");
@@ -253,211 +163,237 @@ function initNavigation() {
 
 function updateActiveNavLink() {
   const sections = document.querySelectorAll("section[id]");
-  const scrollY = window.pageYOffset + 140;
+  const scrollY = window.pageYOffset + 120;
 
-  sections.forEach((sec) => {
-    const top = sec.offsetTop;
-    const height = sec.offsetHeight;
-    const id = sec.getAttribute("id");
-    const match = document.querySelector(`.nav-links a[href="#${id}"]`);
+  sections.forEach(current => {
+    const sectionHeight = current.offsetHeight;
+    const sectionTop = current.offsetTop;
+    const sectionId = current.getAttribute("id");
+    const correspondingLink = document.querySelector(`.nav-links a[href*="${sectionId}"]`);
 
-    if (match && scrollY >= top && scrollY < top + height) {
-      document.querySelectorAll(".nav-link").forEach((l) => l.classList.remove("active"));
-      match.classList.add("active");
+    if (correspondingLink) {
+      if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+        document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+        correspondingLink.classList.add("active");
+      }
     }
   });
 }
 
 /* ===================================================================
-   HERO TYPING ANIMATION
-   =================================================================== */
-function initHeroTyping() {
-  const container = document.getElementById("typingHeroDescription");
-  if (!container) return;
-
-  const textSpan = container.querySelector(".typing-text");
-  if (!textSpan) return;
-
-  const fullText = "Hi, I'm RAIHANATH, an AI CONTENT CREATOR. I transform ideas into cinematic AI videos, compelling advertisements, and creative digital experiences for modern brands.";
-  let charIndex = 0;
-  let isDeleting = false;
-
-  function formatText(text) {
-    return text
-      .replace("RAIHANATH", "<strong>RAIHANATH</strong>")
-      .replace("AI CONTENT CREATOR", "<strong>AI CONTENT CREATOR</strong>");
-  }
-
-  textSpan.innerHTML = "";
-
-  function step() {
-    if (!isDeleting) {
-      charIndex++;
-      textSpan.innerHTML = formatText(fullText.substring(0, charIndex));
-      if (charIndex === fullText.length) {
-        isDeleting = true;
-        setTimeout(step, 4600);
-        return;
-      }
-      setTimeout(step, 34);
-    } else {
-      charIndex--;
-      textSpan.innerHTML = formatText(fullText.substring(0, charIndex));
-      if (charIndex === 0) {
-        isDeleting = false;
-        setTimeout(step, 480);
-        return;
-      }
-      setTimeout(step, 16);
-    }
-  }
-
-  setTimeout(step, 320);
-}
-
-/* ===================================================================
-   PROJECT FILTERS & INLINE TAP-TO-PLAY VIDEO CARDS
+   PROJECT FILTERS
    =================================================================== */
 function initProjectFilters() {
   const filterBtns = document.querySelectorAll(".filter-btn");
-  const cards = document.querySelectorAll(".project-card");
+  const projectCards = document.querySelectorAll(".project-card");
 
-  filterBtns.forEach((btn) => {
+  filterBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-      filterBtns.forEach((b) => b.classList.remove("active"));
+      filterBtns.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
 
-      const val = btn.getAttribute("data-filter");
-      cards.forEach((card) => {
-        const cat = card.getAttribute("data-category") || "";
-        card.style.display = val === "all" || cat === val ? "" : "none";
+      const filterValue = btn.getAttribute("data-filter");
+      const newlyVisible = [];
+
+      projectCards.forEach(card => {
+        const category = card.getAttribute("data-category") || "";
+        const shouldShow = filterValue === "all" || category.includes(filterValue);
+        if (shouldShow) {
+          const wasHidden = card.style.display === "none";
+          card.style.display = "flex";
+          if (wasHidden) {
+            card.classList.remove("cinema-in");
+            card.style.setProperty("--exp-rx", "14deg");
+            card.style.setProperty("--dir-y", "38px");
+            newlyVisible.push(card);
+          }
+        } else {
+          const wrapper = card.querySelector(".project-thumbnail-wrapper");
+          const video = wrapper ? wrapper.querySelector(".project-card-video") : null;
+          if (video && !video.paused) {
+            video.pause();
+          }
+          if (wrapper && wrapper.classList.contains("is-playing")) {
+            wrapper.classList.remove("is-playing");
+            const playBtn = wrapper.querySelector(".play-prompt-btn");
+            if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+          }
+          card.style.display = "none";
+          card.classList.remove("cinema-in");
+        }
       });
-    });
-  });
-}
 
-function toggleCardVideo(e, mediaWrap) {
-  if (e && e.target.closest(".card-sound-btn")) return;
+      window.dispatchEvent(new Event("portfolio:layoutchange"));
 
-  const video = mediaWrap.querySelector(".project-video");
-  if (!video) return;
-
-  if (video.paused) {
-    // Pause any other playing card first
-    document.querySelectorAll(".project-media-wrap.is-playing").forEach((wrap) => {
-      if (wrap !== mediaWrap) {
-        const other = wrap.querySelector(".project-video");
-        if (other) other.pause();
-        wrap.classList.remove("is-playing");
+      if (newlyVisible.length) {
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            const vh = window.innerHeight || 800;
+            newlyVisible.forEach(card => {
+              if (card.style.display === "none") return;
+              const rect = card.getBoundingClientRect();
+              if (rect.top < vh * 0.92 && rect.bottom > 0) {
+                card.classList.add("cinema-in");
+              }
+            });
+          });
+        });
       }
     });
-
-    video.muted = false;
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        mediaWrap.classList.add("is-playing");
-        syncSoundIcon(mediaWrap, false);
-      }).catch(() => {
-        video.muted = true;
-        video.play().then(() => {
-          mediaWrap.classList.add("is-playing");
-          syncSoundIcon(mediaWrap, true);
-        }).catch(() => {});
-      });
-    }
-  } else {
-    video.pause();
-    mediaWrap.classList.remove("is-playing");
-  }
-}
-
-function toggleCardAudio(e, btn) {
-  e.stopPropagation();
-  const wrap = btn.closest(".project-media-wrap");
-  const video = wrap ? wrap.querySelector(".project-video") : null;
-  if (!video) return;
-
-  video.muted = !video.muted;
-  syncSoundIcon(wrap, video.muted);
-
-  if (video.paused && !video.muted) {
-    video.play().then(() => {
-      wrap.classList.add("is-playing");
-    }).catch(() => {});
-  }
-}
-
-function syncSoundIcon(wrap, isMuted) {
-  const btn = wrap.querySelector(".card-sound-btn");
-  if (!btn) return;
-  const icon = btn.querySelector("i");
-  btn.classList.toggle("unmuted", !isMuted);
-  if (icon) {
-    icon.className = isMuted ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high";
-  }
+  });
 }
 
 /* ===================================================================
-   PROJECT DETAIL MODAL
+   EXPERIMENT CARD VIDEO TAP-TO-PLAY & AUDIO TOGGLE
    =================================================================== */
-function openProjectModal(projectId) {
-  const data = PROJECTS_DATA[projectId];
-  const modal = document.getElementById("projectModal");
-  const content = document.getElementById("modalContent");
-  if (!data || !modal || !content) return;
+function toggleCardVideo(wrapper, event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  
+  const video = wrapper.querySelector(".project-card-video");
+  const playBtn = wrapper.querySelector(".play-prompt-btn");
+  if (!video) return;
 
-  // Pause inline preview videos
-  document.querySelectorAll(".project-media-wrap.is-playing").forEach((wrap) => {
-    const v = wrap.querySelector(".project-video");
-    if (v) v.pause();
-    wrap.classList.remove("is-playing");
+  // Pause any other playing card videos so only one card plays at a time
+  document.querySelectorAll(".project-thumbnail-wrapper.is-playing").forEach((otherWrapper) => {
+    if (otherWrapper !== wrapper) {
+      const otherVideo = otherWrapper.querySelector(".project-card-video");
+      if (otherVideo && !otherVideo.paused) {
+        otherVideo.pause();
+      }
+      otherWrapper.classList.remove("is-playing");
+      const otherBtn = otherWrapper.querySelector(".play-prompt-btn");
+      if (otherBtn) {
+        otherBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+      }
+    }
   });
 
-  content.innerHTML = `
-    <div style="margin-bottom: 1.4rem;">
-      <span style="display:inline-block; font-family:var(--font-mono); font-size:0.68rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; padding:4px 12px; border-radius:999px; background:var(--crimson-soft); border:1px solid var(--crimson-border); color:#FFD2D8; margin-bottom:10px;">
-        ${data.category}
-      </span>
-      <h2 style="font-family:var(--font-display); font-size:1.75rem; font-weight:800; line-height:1.15; margin-bottom:6px;">
-        ${data.title}<span style="color:var(--crimson);">.</span>
+  if (video.paused) {
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          wrapper.classList.add("is-playing");
+          if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        })
+        .catch(() => {
+          // Fallback if browser restricts unmuted playback
+          video.muted = true;
+          video.play().then(() => {
+            wrapper.classList.add("is-playing");
+            if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+          });
+        });
+    }
+  } else {
+    video.pause();
+    wrapper.classList.remove("is-playing");
+    if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+  }
+
+  video.onended = () => {
+    wrapper.classList.remove("is-playing");
+    if (playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+    video.currentTime = 0;
+  };
+}
+
+function toggleCardAudio(btn, event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  const wrapper = btn.closest(".project-thumbnail-wrapper");
+  if (!wrapper) return;
+  const video = wrapper.querySelector(".project-card-video");
+  if (!video) return;
+
+  video.muted = !video.muted;
+  btn.innerHTML = video.muted
+    ? '<i class="fa-solid fa-volume-xmark"></i>'
+    : '<i class="fa-solid fa-volume-high"></i>';
+  btn.setAttribute("title", video.muted ? "Unmute" : "Mute");
+  btn.setAttribute("aria-label", video.muted ? "Unmute" : "Mute");
+}
+
+/* ===================================================================
+   PROJECT MODAL
+   =================================================================== */
+function openProjectModal(projectId) {
+  // Pause any playing card videos in background
+  document.querySelectorAll(".project-card-video").forEach((v) => {
+    if (!v.paused) v.pause();
+  });
+  document.querySelectorAll(".project-thumbnail-wrapper.is-playing").forEach((w) => {
+    w.classList.remove("is-playing");
+    const btn = w.querySelector(".play-prompt-btn");
+    if (btn) btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+  });
+
+  const data = PROJECTS_DATA[projectId];
+  if (!data) return;
+
+  const modal = document.getElementById("projectModal");
+  const modalContent = document.getElementById("modalContent");
+
+  modalContent.innerHTML = `
+    ${data.videoUrl ? `
+      <div style="margin-bottom: 1.5rem; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--gold-border); box-shadow: var(--shadow-md); background: #000;">
+        <video src="${data.videoUrl}" controls autoplay playsinline style="width: 100%; display: block; aspect-ratio: 16/9; object-fit: contain; background: #000; max-height: 480px;"></video>
+      </div>
+    ` : ''}
+
+    <div style="margin-bottom: 1.5rem;">
+      <span class="metallic-badge">${data.category}</span>
+      <h2 style="font-family: var(--font-serif); font-size: clamp(1.4rem, 4.5vw, 2.2rem); color: var(--text-primary); margin: 0.6rem 0 0.3rem 0; font-weight: 800; line-height: 1.2;">
+        ${data.title}
       </h2>
-      ${data.tagline ? `<p style="color:var(--text-secondary); font-size:0.92rem;">${data.tagline}</p>` : ""}
+      ${data.tagline ? `
+        <p style="font-size: 1rem; color: var(--gold-deep); font-weight: 600;">
+          ${data.tagline}
+        </p>
+      ` : ''}
     </div>
 
-    <div style="border-radius:14px; overflow:hidden; background:#000; border:1px solid var(--crimson-border); margin-bottom:1.4rem;">
-      <video controls playsinline autoplay style="width:100%; max-height:420px; display:block;" src="${data.videoUrl}"></video>
+    <div style="background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: var(--radius-md); padding: 1.4rem; margin-bottom: 1.5rem;">
+      <h4 style="font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 0.5rem; font-weight: 700;">
+        Overview & Creative Vision
+      </h4>
+      <p style="font-size: 0.98rem; color: var(--text-secondary); line-height: 1.7;">
+        ${data.overview}
+      </p>
     </div>
 
-    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:14px; padding:1.25rem; margin-bottom:1.25rem;">
-      <h4 style="font-family:var(--font-mono); font-size:0.74rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--crimson); margin-bottom:0.45rem;">Overview &amp; Creative Vision</h4>
-      <p style="font-size:0.94rem; color:var(--text-secondary); line-height:1.68;">${data.overview}</p>
-    </div>
-
-    <div style="margin-bottom:1.25rem;">
-      <h4 style="font-family:var(--font-mono); font-size:0.74rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--crimson); margin-bottom:0.45rem;">Prompt Architecture &amp; Engineering</h4>
-      <p style="font-size:0.92rem; color:#E5E7EB; line-height:1.6; background:var(--crimson-soft); padding:0.95rem 1.1rem; border-radius:10px; border-left:3px solid var(--crimson);">
+    <div style="margin-bottom: 1.5rem;">
+      <h4 style="font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 0.5rem; font-weight: 700;">
+        Prompt Architecture & Engineering
+      </h4>
+      <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; background: rgba(197, 160, 89, 0.1); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--gold-primary);">
         “${data.promptStrategy}”
       </p>
     </div>
 
-    <div style="margin-bottom:1.4rem;">
-      <h4 style="font-family:var(--font-mono); font-size:0.74rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--crimson); margin-bottom:0.65rem;">Key Highlights</h4>
-      <ul style="list-style:none; display:flex; flex-direction:column; gap:0.5rem;">
+    <div style="margin-bottom: 1.5rem;">
+      <h4 style="font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 0.75rem; font-weight: 700;">
+        Key Achievements
+      </h4>
+      <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
         ${data.highlights.map(item => `
-          <li style="display:flex; align-items:center; gap:0.65rem; font-size:0.9rem; color:var(--text-secondary);">
-            <i class="fa-solid fa-check" style="color:var(--crimson); font-size:0.85rem;"></i>
+          <li style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.92rem; color: var(--text-secondary);">
+            <i class="fa-solid fa-check" style="color: var(--gold-primary); font-size: 0.85rem;"></i>
             <span>${item}</span>
           </li>
         `).join("")}
       </ul>
     </div>
 
-    <div style="padding-top:1.1rem; border-top:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
-      <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-        ${data.tools.map(t => `<span class="chip">${t}</span>`).join("")}
+    <div style="padding-top: 1.25rem; border-top: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        ${data.tools.map(tool => `<span class="tool-chip">${tool}</span>`).join("")}
       </div>
-      <a href="https://wa.me/919745147246?text=Hi%20Raihanath,%20I'd%20like%20to%20discuss%20a%20project%20similar%20to%20${encodeURIComponent(data.title)}" target="_blank" rel="noopener noreferrer" class="btn-crimson-pill">
+
+      <a href="https://wa.me/919745147246?text=Hi%20Raihanath,%20I'd%20like%20to%20discuss%20a%20project%20similar%20to%20${encodeURIComponent(data.title)}" target="_blank" class="btn-primary" style="padding: 0.6rem 1.4rem; font-size: 0.8rem;">
         <i class="fa-brands fa-whatsapp"></i>
         <span>Request Similar Video</span>
       </a>
@@ -467,134 +403,44 @@ function openProjectModal(projectId) {
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
 
+  // Ensure modal video plays smoothly with autoplay policy fallback
   const modalVideo = modal.querySelector("video");
   if (modalVideo) {
     modalVideo.currentTime = 0;
-    modalVideo.play().catch(() => {});
+    const playPromise = modalVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay with audio deferred by browser; user can tap the player controls
+      });
+    }
   }
 }
 
 function closeProjectModal() {
   const modal = document.getElementById("projectModal");
-  if (!modal) return;
-  const video = modal.querySelector("video");
-  if (video) video.pause();
-  modal.classList.remove("active");
-  document.body.style.overflow = "";
+  if (modal) {
+    const video = modal.querySelector("video");
+    if (video) video.pause();
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
 }
 
 function closeProjectModalOnBackdrop(e) {
-  if (e.target && e.target.id === "projectModal") {
+  if (e.target.id === "projectModal") {
     closeProjectModal();
   }
 }
 
+// Close modal on Escape key
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeProjectModal();
+  if (e.key === "Escape") {
+    closeProjectModal();
+  }
 });
 
 /* ===================================================================
-   ABOUT HANGING BADGE 3D TILT
-   =================================================================== */
-function initHangingBadgeTilt() {
-  const stage = document.getElementById("hangingBadgeStage");
-  const card = document.getElementById("hangingCard");
-  if (!stage || !card) return;
-
-  stage.addEventListener("mousemove", (e) => {
-    if (window.innerWidth <= 768) return;
-    const rect = stage.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    card.style.animation = "none";
-    card.style.transform = `perspective(900px) rotateX(${(-y * 12).toFixed(2)}deg) rotateY(${(x * 16).toFixed(2)}deg) rotate(2deg)`;
-  });
-
-  stage.addEventListener("mouseleave", () => {
-    card.style.transform = "";
-    card.style.animation = "";
-  });
-}
-
-/* ===================================================================
-   SERVICES INTERACTIVE ACCORDION
-   =================================================================== */
-function initServicesAccordion() {
-  const items = document.querySelectorAll("#servicesAccordion .accordion-item");
-  if (!items.length) return;
-
-  items.forEach((item) => {
-    const trigger = item.querySelector(".accordion-trigger");
-    if (!trigger) return;
-
-    trigger.addEventListener("click", () => {
-      const wasActive = item.classList.contains("active");
-
-      items.forEach((other) => {
-        other.classList.remove("active");
-        const btn = other.querySelector(".accordion-trigger");
-        if (btn) btn.setAttribute("aria-expanded", "false");
-      });
-
-      if (!wasActive) {
-        item.classList.add("active");
-        trigger.setAttribute("aria-expanded", "true");
-      }
-    });
-  });
-}
-
-/* ===================================================================
-   ARSENAL TOOLS ONE-BY-ONE STAGGER ANIMATION
-   =================================================================== */
-function initToolsStaggerAnimation() {
-  const grid = document.getElementById("arsenalGrid");
-  if (!grid) return;
-
-  const tiles = grid.querySelectorAll(".arsenal-tile");
-  tiles.forEach((tile, idx) => {
-    tile.style.setProperty("--stagger-delay", `${(idx * 0.11).toFixed(2)}s`);
-  });
-
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            grid.classList.add("stagger-active");
-            obs.unobserve(grid);
-          }
-        });
-      },
-      { threshold: 0.12 }
-    );
-    observer.observe(grid);
-  } else {
-    grid.classList.add("stagger-active");
-  }
-}
-
-/* ===================================================================
-   SUBTLE CARD TILT ON PILLARS
-   =================================================================== */
-function initCardTilt() {
-  const cards = document.querySelectorAll(".pillar-card");
-  cards.forEach((card) => {
-    card.addEventListener("mousemove", (e) => {
-      if (window.innerWidth <= 768) return;
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      card.style.transform = `perspective(900px) rotateX(${(-y * 5).toFixed(2)}deg) rotateY(${(x * 5).toFixed(2)}deg) translateY(-4px)`;
-    });
-    card.addEventListener("mouseleave", () => {
-      card.style.transform = "";
-    });
-  });
-}
-
-/* ===================================================================
-   CLIPBOARD COPY, TOAST & WHATSAPP FORM SUBMIT
+   COPY TO CLIPBOARD & TOAST NOTIFICATION
    =================================================================== */
 function copyToClipboard(text, message) {
   navigator.clipboard.writeText(text).then(() => {
@@ -611,19 +457,25 @@ function showToast(message) {
   const toast = document.createElement("div");
   toast.className = "toast";
   toast.innerHTML = `
-    <i class="fa-solid fa-circle-check" style="color: var(--crimson); font-size: 1.05rem;"></i>
+    <i class="fa-solid fa-circle-check" style="color: var(--gold-deep); font-size: 1.1rem;"></i>
     <span>${message}</span>
   `;
 
   container.appendChild(toast);
+
   setTimeout(() => {
     toast.style.opacity = "0";
-    toast.style.transform = "translateX(24px)";
-    toast.style.transition = "all 0.3s ease";
-    setTimeout(() => toast.remove(), 300);
+    toast.style.transform = "translateX(100%)";
+    toast.style.transition = "all 0.35s ease";
+    setTimeout(() => {
+      toast.remove();
+    }, 350);
   }, 3200);
 }
 
+/* ===================================================================
+   CONTACT FORM HANDLER
+   =================================================================== */
 function handleFormSubmit(event) {
   event.preventDefault();
 
@@ -638,6 +490,7 @@ function handleFormSubmit(event) {
     return;
   }
 
+  // Visual button loading state
   submitBtn.disabled = true;
   submitBtn.innerHTML = `
     <i class="fa-solid fa-circle-notch fa-spin"></i>
@@ -647,20 +500,617 @@ function handleFormSubmit(event) {
   setTimeout(() => {
     submitBtn.disabled = false;
     submitBtn.innerHTML = `
-      <span>Send Message</span>
+      <span>Send Collaboration Request</span>
       <i class="fa-solid fa-paper-plane"></i>
     `;
 
+    // Construct pre-filled WhatsApp link
     const waText = encodeURIComponent(
-      `Hello Raihanath!\n\nName: ${name}\nEmail: ${email}\nService: ${service}\n\nProject Scope:\n${message}`
+      `Hello Raihanath!\n\nMy Name: ${name}\nEmail: ${email}\nService Interested: ${service}\n\nProject Brief:\n${message}`
     );
     const waUrl = `https://wa.me/919745147246?text=${waText}`;
 
+    // Prompt user to connect via WhatsApp or Mail
     showToast(`Thank you ${name}! Opening WhatsApp connection...`);
+
+    // Reset form
     document.getElementById("contactForm").reset();
 
+    // Open WhatsApp after a brief delay
     setTimeout(() => {
       window.open(waUrl, "_blank");
-    }, 900);
-  }, 650);
+    }, 1000);
+  }, 800);
+}
+
+/* ===================================================================
+   SUBTLE 3D TILT EFFECT ON CARDS
+   =================================================================== */
+function initTiltEffect() {
+  const cards = document.querySelectorAll(".gold-card, .why-card");
+
+  cards.forEach(card => {
+    card.addEventListener("mousemove", (e) => {
+      // Don't tilt until card has animated into place
+      if ((card.classList.contains("slide-from-left") || card.classList.contains("slide-from-right")) && !card.classList.contains("animate-in")) {
+        return;
+      }
+
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = ((y - centerY) / centerY) * -4;
+      const rotateY = ((x - centerX) / centerX) * 4;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "";
+    });
+  });
+}
+
+/* ===================================================================
+   SHARED BI-DIRECTIONAL SCROLL REVEAL HELPER
+   Replays entrance cleanly whenever scrolled back into view (up or down)
+   =================================================================== */
+function observeBidirectionalReveal(elements, activeClass, minRatio = 0.08, onExit = null) {
+  if (!elements.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    elements.forEach((el) => el.classList.add(activeClass));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const el = entry.target;
+        if (entry.isIntersecting && entry.intersectionRatio >= minRatio) {
+          el.classList.add(activeClass);
+        } else if (!entry.isIntersecting) {
+          // Determine whether element exited above or below viewport for directional re-entry
+          const exitedAbove = entry.boundingClientRect.top < 0;
+          el.style.setProperty("--dir-y", exitedAbove ? "-28px" : "28px");
+          if (onExit) onExit(el, exitedAbove);
+          el.classList.remove(activeClass);
+        }
+      });
+    },
+    { threshold: [0, minRatio] }
+  );
+
+  elements.forEach((el) => observer.observe(el));
+}
+
+/* ===================================================================
+   SHARED CARD STACK & SEQUENTIAL ITEM STAGGER REVEAL
+   =================================================================== */
+function initCardStackReveal({
+  containerSelector,
+  itemSelectors,
+  activeClass,
+  itemStep = 0.11,
+  colStep = 0.14,
+  baseDelay = 0.08,
+  columns = 3
+}) {
+  const cards = Array.from(document.querySelectorAll(containerSelector));
+  if (!cards.length) return;
+
+  function updateStaggerDelays() {
+    const isSingleColumn = window.innerWidth <= 1024;
+    cards.forEach((card, cardIndex) => {
+      const colIndex = cardIndex % columns;
+      const boxOffset = isSingleColumn ? 0.04 : (colIndex * colStep);
+      const items = card.querySelectorAll(itemSelectors);
+      items.forEach((item, itemIndex) => {
+        const delay = boxOffset + (itemIndex * itemStep) + baseDelay;
+        item.style.setProperty("--stagger-delay", `${delay.toFixed(2)}s`);
+      });
+    });
+  }
+
+  updateStaggerDelays();
+  window.addEventListener("resize", updateStaggerDelays, { passive: true });
+
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    cards.forEach((card) => card.classList.add(activeClass));
+    return;
+  }
+
+  observeBidirectionalReveal(cards, activeClass, 0.08);
+}
+
+/* ===================================================================
+   SERVICES ("WHAT I BRING") SCROLL ENTRANCE & INNER CASCADE
+   =================================================================== */
+function initServicesScrollAnimation() {
+  initCardStackReveal({
+    containerSelector: ".services-grid .gold-card",
+    itemSelectors: ".card-header-bar, .card-icon-banner, .card-title, .card-description, .card-tag",
+    activeClass: "animate-in",
+    itemStep: 0.08,
+    colStep: 0.14,
+    baseDelay: 0.08,
+    columns: 3
+  });
+}
+
+/* ===================================================================
+   WHY WORK WITH ME SCROLL ENTRANCE & INNER CASCADE
+   =================================================================== */
+function initWhyScrollAnimation() {
+  initCardStackReveal({
+    containerSelector: ".why-grid .why-card",
+    itemSelectors: ".why-num, .why-title, .why-p",
+    activeClass: "animate-in",
+    itemStep: 0.11,
+    colStep: 0.14,
+    baseDelay: 0.08,
+    columns: 3
+  });
+}
+
+/* ===================================================================
+   TOOLS STAGGER ENTRANCE ANIMATION (Tools enter one by one per box)
+   =================================================================== */
+function initToolsStaggerAnimation() {
+  initCardStackReveal({
+    containerSelector: ".tools-categories .tool-group-card",
+    itemSelectors: ".tool-item-pill",
+    activeClass: "stagger-active",
+    itemStep: 0.11,
+    colStep: 0.14,
+    baseDelay: 0.08,
+    columns: 3
+  });
+}
+
+/* ===================================================================
+   VISUAL EXPERIMENTS: 3D CINEMA CURTAIN REVEAL & OPPOSING PARALLAX
+   =================================================================== */
+function initExperimentsScrollAnimation() {
+  const cards = Array.from(document.querySelectorAll(".projects-grid .project-card"));
+  if (!cards.length) return;
+
+  function updateExperimentLayout() {
+    const isTwoCol = window.innerWidth > 768;
+    let visibleIdx = 0;
+    cards.forEach((card) => {
+      if (card.style.display === "none") return;
+      const colIdx = visibleIdx % 2;
+      const yaw = isTwoCol ? (colIdx === 0 ? "5deg" : "-5deg") : "0deg";
+      const delay = isTwoCol ? (colIdx === 0 ? "0.04s" : "0.17s") : "0.04s";
+      card.style.setProperty("--col-yaw", yaw);
+      card.style.setProperty("--exp-delay", delay);
+      visibleIdx++;
+    });
+  }
+
+  updateExperimentLayout();
+  window.addEventListener("resize", updateExperimentLayout, { passive: true });
+  window.addEventListener("portfolio:layoutchange", updateExperimentLayout);
+
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    cards.forEach((card) => card.classList.add("cinema-in"));
+    return;
+  }
+
+  observeBidirectionalReveal(cards, "cinema-in", 0.08, (el, exitedAbove) => {
+    el.style.setProperty("--exp-rx", exitedAbove ? "-14deg" : "14deg");
+    el.style.setProperty("--dir-y", exitedAbove ? "-38px" : "38px");
+  });
+}
+
+/* ===================================================================
+   CONTINUOUS 60FPS SCROLL PARALLAX (SERVICES, WHY ME, TOOLS & EXPERIMENTS)
+   =================================================================== */
+function initScrollParallaxEffects() {
+  const headings = Array.from(document.querySelectorAll(
+    "#services .plaque-wrapper, #services .section-subtitle, #why-me .plaque-wrapper, #why-me .section-subtitle, #tools .plaque-wrapper, #tools .section-subtitle, #experiments .plaque-wrapper, #experiments .section-subtitle, #experiments .experiments-filter-bar"
+  ));
+  if (!headings.length) return;
+
+  headings.forEach((el) => el.classList.add("scroll-reveal-heading"));
+
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    headings.forEach((el) => el.classList.add("scroll-reveal-in"));
+    return;
+  }
+
+  observeBidirectionalReveal(headings, "scroll-reveal-in", 0.05);
+
+  const serviceCards = Array.from(document.querySelectorAll(".services-grid .gold-card"));
+  const whyCards = Array.from(document.querySelectorAll(".why-grid .why-card"));
+  const toolCards = Array.from(document.querySelectorAll(".tools-categories .tool-group-card"));
+  const experimentCards = Array.from(document.querySelectorAll(".projects-grid .project-card"));
+  let ticking = false;
+
+  function measureNormalized(elements, vh, margin) {
+    return elements.map((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.bottom < -margin || rect.top > vh + margin) return null;
+      const center = rect.top + rect.height * 0.5;
+      return Math.max(-1, Math.min(1, (center - vh * 0.5) / (vh * 0.65)));
+    });
+  }
+
+  function updateParallax() {
+    ticking = false;
+    const vh = window.innerHeight || 800;
+    const isDesktop = window.innerWidth > 1024;
+    const isTwoColExperiments = window.innerWidth > 768;
+    const nearMargin = 140;
+    const visibleExperiments = experimentCards.filter((card) => card.style.display !== "none");
+
+    // Batch DOM reads before DOM writes to prevent forced reflow
+    const headingNorms = measureNormalized(headings, vh, nearMargin);
+    const serviceNorms = measureNormalized(serviceCards, vh, nearMargin);
+    const whyNorms = measureNormalized(whyCards, vh, nearMargin);
+    const toolNorms = measureNormalized(toolCards, vh, nearMargin);
+    const experimentNorms = measureNormalized(visibleExperiments, vh, nearMargin);
+
+    headings.forEach((el, i) => {
+      if (headingNorms[i] === null) return;
+      el.style.setProperty("--plaque-parallax", `${(headingNorms[i] * -9).toFixed(2)}px`);
+    });
+
+    serviceCards.forEach((card, i) => {
+      const norm = serviceNorms[i];
+      if (norm === null) return;
+      card.style.setProperty("--bg-parallax", `${(norm * 18).toFixed(2)}px`);
+      const cardOffset = isDesktop ? norm * (i % 3 === 1 ? -13 : 9) : 0;
+      card.style.setProperty("--card-parallax", `${cardOffset.toFixed(2)}px`);
+    });
+
+    whyCards.forEach((card, i) => {
+      const norm = whyNorms[i];
+      if (norm === null) return;
+      const whyOffset = isDesktop ? norm * (i === 1 ? -14 : 9) : norm * -5;
+      card.style.setProperty("--why-parallax", `${whyOffset.toFixed(2)}px`);
+    });
+
+    toolCards.forEach((card, i) => {
+      const norm = toolNorms[i];
+      if (norm === null) return;
+      const boxOffset = isDesktop ? norm * (i === 1 ? -15 : 10) : norm * -5;
+      card.style.setProperty("--box-parallax", `${boxOffset.toFixed(2)}px`);
+    });
+
+    visibleExperiments.forEach((card, i) => {
+      const norm = experimentNorms[i];
+      if (norm === null) return;
+      const colOffset = isTwoColExperiments ? norm * (i % 2 === 0 ? 14 : -14) : 0;
+      card.style.setProperty("--exp-parallax", `${colOffset.toFixed(2)}px`);
+      card.style.setProperty("--media-parallax", `${(norm * -9).toFixed(2)}px`);
+    });
+  }
+
+  function requestParallaxUpdate() {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(updateParallax);
+    }
+  }
+
+  updateParallax();
+  window.addEventListener("scroll", requestParallaxUpdate, { passive: true });
+  window.addEventListener("resize", requestParallaxUpdate, { passive: true });
+  window.addEventListener("portfolio:layoutchange", requestParallaxUpdate);
+}
+
+/* ===================================================================
+   HERO TYPING ANIMATION (Moving Typewriter Effect)
+   =================================================================== */
+function initHeroTyping() {
+  const container = document.getElementById("typingHeroDescription");
+  if (!container) return;
+
+  const textSpan = container.querySelector(".typing-text");
+  if (!textSpan) return;
+
+  const fullText = "Hi, I'm RAIHANATH, an AI CONTENT CREATOR. I transform ideas into cinematic AI videos, compelling advertisements, and creative digital experiences for modern brands.";
+
+  let charIndex = 0;
+  let isDeleting = false;
+  const typeSpeed = 35;
+  const deleteSpeed = 16;
+  const pauseAtEnd = 4500;
+  const pauseAtStart = 500;
+
+  function formatText(text) {
+    let formatted = text;
+    if (formatted.includes("RAIHANATH")) {
+      formatted = formatted.replace("RAIHANATH", "<strong>RAIHANATH</strong>");
+    }
+    if (formatted.includes("AI CONTENT CREATOR")) {
+      formatted = formatted.replace("AI CONTENT CREATOR", "<strong>AI CONTENT CREATOR</strong>");
+    }
+    return formatted;
+  }
+
+  // Clear static text to start typewriter
+  textSpan.innerHTML = "";
+
+  function typeStep() {
+    if (!isDeleting) {
+      charIndex++;
+      const current = fullText.substring(0, charIndex);
+      textSpan.innerHTML = formatText(current);
+
+      if (charIndex === fullText.length) {
+        isDeleting = true;
+        setTimeout(typeStep, pauseAtEnd);
+        return;
+      }
+      setTimeout(typeStep, typeSpeed);
+    } else {
+      charIndex--;
+      const current = fullText.substring(0, charIndex);
+      textSpan.innerHTML = formatText(current);
+
+      if (charIndex === 0) {
+        isDeleting = false;
+        setTimeout(typeStep, pauseAtStart);
+        return;
+      }
+      setTimeout(typeStep, deleteSpeed);
+    }
+  }
+
+  setTimeout(typeStep, 350);
+}
+
+/* ===================================================================
+   ABOUT SECTION BACKGROUND ANIMATION: NEURAL & MOLECULAR LATTICE
+   Bridging AI Network Nodes with Chemistry Organic Geometry
+   =================================================================== */
+function initAboutBackgroundAnimation() {
+  const canvas = document.getElementById("aboutMeshCanvas");
+  const section = document.getElementById("about");
+  if (!canvas || !section) return;
+
+  const ctx = canvas.getContext("2d");
+  let animationFrameId = null;
+  let isVisible = true;
+  let width = 0;
+  let height = 0;
+
+  // Mouse interaction state
+  const mouse = {
+    x: -9999,
+    y: -9999,
+    radius: 160,
+    active: false
+  };
+
+  section.addEventListener("mousemove", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    mouse.active = true;
+  });
+
+  section.addEventListener("mouseleave", () => {
+    mouse.active = false;
+    mouse.x = -9999;
+    mouse.y = -9999;
+  });
+
+  function resize() {
+    const rect = section.getBoundingClientRect();
+    width = rect.width;
+    height = rect.height;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+  }
+
+  window.addEventListener("resize", () => {
+    resize();
+    initParticles();
+  });
+
+  // Particle definition
+  const PARTICLE_COUNT = Math.min(Math.max(Math.floor(window.innerWidth / 32), 30), 55);
+  let particles = [];
+
+  class Particle {
+    constructor() {
+      this.reset(true);
+    }
+
+    reset(initial = false) {
+      this.x = initial ? Math.random() * width : (Math.random() > 0.5 ? 0 : width);
+      this.y = initial ? Math.random() * height : Math.random() * height;
+      this.vx = (Math.random() - 0.5) * 0.45;
+      this.vy = (Math.random() - 0.5) * 0.45;
+      this.radius = Math.random() * 2.2 + 1.4;
+      this.isAmber = Math.random() > 0.55;
+      this.baseAlpha = Math.random() * 0.4 + 0.35;
+      this.pulse = Math.random() * Math.PI * 2;
+      this.pulseSpeed = 0.02 + Math.random() * 0.025;
+      this.isHexNode = Math.random() > 0.82;
+      this.hexAngle = Math.random() * Math.PI;
+      this.hexRadius = Math.random() * 6 + 14;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.pulse += this.pulseSpeed;
+      if (this.isHexNode) {
+        this.hexAngle += 0.005;
+      }
+
+      // Gentle bounce at boundaries
+      if (this.x < 10) { this.x = 10; this.vx *= -1; }
+      if (this.x > width - 10) { this.x = width - 10; this.vx *= -1; }
+      if (this.y < 10) { this.y = 10; this.vy *= -1; }
+      if (this.y > height - 10) { this.y = height - 10; this.vy *= -1; }
+
+      // Mouse gentle interaction
+      if (mouse.active) {
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < mouse.radius && dist > 0) {
+          const force = (1 - dist / mouse.radius) * 0.55;
+          this.x += (dx / dist) * force;
+          this.y += (dy / dist) * force;
+        }
+      }
+    }
+
+    draw(isDark) {
+      const currentAlpha = this.baseAlpha + Math.sin(this.pulse) * 0.15;
+      const alphaClamped = Math.max(0.12, Math.min(0.85, currentAlpha));
+
+      let primaryColor = this.isAmber
+        ? (isDark ? `rgba(251, 108, 0, ${alphaClamped})` : `rgba(251, 108, 0, ${alphaClamped * 0.9})`)
+        : (isDark ? `rgba(229, 205, 130, ${alphaClamped})` : `rgba(180, 136, 50, ${alphaClamped * 0.85})`);
+
+      // Core particle
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = primaryColor;
+      ctx.fill();
+
+      // Soft glow aura
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius * 2.6, 0, Math.PI * 2);
+      ctx.fillStyle = this.isAmber
+        ? `rgba(251, 108, 0, ${alphaClamped * 0.18})`
+        : `rgba(229, 205, 130, ${alphaClamped * 0.18})`;
+      ctx.fill();
+
+      // Chemistry / Molecular Hexagon Ring around select nodes
+      if (this.isHexNode) {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.hexAngle);
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const a = (i * Math.PI) / 3;
+          const hx = Math.cos(a) * this.hexRadius;
+          const hy = Math.sin(a) * this.hexRadius;
+          if (i === 0) ctx.moveTo(hx, hy);
+          else ctx.lineTo(hx, hy);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = isDark
+          ? `rgba(229, 205, 130, ${alphaClamped * 0.32})`
+          : `rgba(180, 136, 50, ${alphaClamped * 0.28})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(new Particle());
+    }
+  }
+
+  resize();
+  initParticles();
+
+  const MAX_CONNECT_DIST = 135;
+
+  function render() {
+    if (!isVisible) return;
+
+    ctx.clearRect(0, 0, width, height);
+
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+
+    // 1. Draw connecting lines between particles
+    for (let i = 0; i < particles.length; i++) {
+      const p1 = particles[i];
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < MAX_CONNECT_DIST) {
+          const ratio = 1 - dist / MAX_CONNECT_DIST;
+          const lineAlpha = ratio * (isDark ? 0.32 : 0.22);
+
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = isDark
+            ? (p1.isAmber || p2.isAmber ? `rgba(251, 108, 0, ${lineAlpha})` : `rgba(229, 205, 130, ${lineAlpha})`)
+            : (p1.isAmber || p2.isAmber ? `rgba(251, 108, 0, ${lineAlpha * 0.95})` : `rgba(180, 136, 50, ${lineAlpha * 0.85})`);
+          ctx.lineWidth = 0.75;
+          ctx.stroke();
+        }
+      }
+
+      // Mouse connection line
+      if (mouse.active) {
+        const mdx = mouse.x - p1.x;
+        const mdy = mouse.y - p1.y;
+        const mDist = Math.hypot(mdx, mdy);
+        if (mDist < mouse.radius) {
+          const mRatio = 1 - mDist / mouse.radius;
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = `rgba(251, 108, 0, ${mRatio * 0.4})`;
+          ctx.lineWidth = 0.9;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // 2. Update and draw particles
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw(isDark);
+    }
+
+    animationFrameId = requestAnimationFrame(render);
+  }
+
+  // IntersectionObserver to pause when off-screen (preserves CPU & battery)
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (!isVisible) {
+              isVisible = true;
+              animationFrameId = requestAnimationFrame(render);
+            }
+          } else {
+            isVisible = false;
+            if (animationFrameId) {
+              cancelAnimationFrame(animationFrameId);
+              animationFrameId = null;
+            }
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(section);
+  }
+
+  animationFrameId = requestAnimationFrame(render);
 }
