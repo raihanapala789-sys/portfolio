@@ -97,8 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initNavigation();
   initProjectFilters();
   initTiltEffect();
+  initHeroScrollAnimation();
   initHeroTyping();
   initAboutBackgroundAnimation();
+  initTrailingParticlesAnimation();
   initServicesScrollAnimation();
   initWhyScrollAnimation();
   initToolsStaggerAnimation();
@@ -730,6 +732,9 @@ function initScrollParallaxEffects() {
   const whyCards = Array.from(document.querySelectorAll(".why-grid .why-card"));
   const toolCards = Array.from(document.querySelectorAll(".tools-categories .tool-group-card"));
   const experimentCards = Array.from(document.querySelectorAll(".projects-grid .project-card"));
+  const heroSection = document.getElementById("hero");
+  const heroContent = heroSection ? heroSection.querySelector(".hero-content") : null;
+  const heroPortraitCol = heroSection ? heroSection.querySelector(".hero-portrait-col") : null;
   let ticking = false;
 
   function measureNormalized(elements, vh, margin) {
@@ -750,11 +755,19 @@ function initScrollParallaxEffects() {
     const visibleExperiments = experimentCards.filter((card) => card.style.display !== "none");
 
     // Batch DOM reads before DOM writes to prevent forced reflow
+    const heroRect = heroSection ? heroSection.getBoundingClientRect() : null;
     const headingNorms = measureNormalized(headings, vh, nearMargin);
     const serviceNorms = measureNormalized(serviceCards, vh, nearMargin);
     const whyNorms = measureNormalized(whyCards, vh, nearMargin);
     const toolNorms = measureNormalized(toolCards, vh, nearMargin);
     const experimentNorms = measureNormalized(visibleExperiments, vh, nearMargin);
+
+    if (heroRect && heroContent && heroPortraitCol && heroRect.bottom > 0 && heroRect.top < vh) {
+      const heroProgress = Math.max(0, Math.min(1, -heroRect.top / Math.max(1, heroRect.height)));
+      heroContent.style.setProperty("--hero-text-parallax", `${(heroProgress * -36).toFixed(2)}px`);
+      heroPortraitCol.style.setProperty("--hero-photo-x-parallax", `${(isDesktop ? heroProgress * 30 : 0).toFixed(2)}px`);
+      heroPortraitCol.style.setProperty("--hero-photo-y-parallax", `${(heroProgress * 22).toFixed(2)}px`);
+    }
 
     headings.forEach((el, i) => {
       if (headingNorms[i] === null) return;
@@ -803,6 +816,176 @@ function initScrollParallaxEffects() {
   window.addEventListener("scroll", requestParallaxUpdate, { passive: true });
   window.addEventListener("resize", requestParallaxUpdate, { passive: true });
   window.addEventListener("portfolio:layoutchange", requestParallaxUpdate);
+}
+
+/* ===================================================================
+   HERO SCROLL & ENTRANCE CHOREOGRAPHY
+   1) AI CONTENT CREATOR letters + Raihanath drop from top
+   2) Status pill, description & CTA details follow
+   3) Portrait slides in cleanly from right side (replayable on scroll back)
+   =================================================================== */
+function initHeroScrollAnimation() {
+  const heroSection = document.getElementById("hero");
+  if (!heroSection) return;
+
+  const titleMain = heroSection.querySelector(".hero-title-main");
+  if (titleMain) {
+    const rawWords = titleMain.textContent.trim().split(/\s+/);
+    const frag = document.createDocumentFragment();
+    let charIndex = 0;
+
+    rawWords.forEach((word, wordIdx) => {
+      const wordSpan = document.createElement("span");
+      wordSpan.className = "hero-word";
+
+      for (let i = 0; i < word.length; i++) {
+        const charSpan = document.createElement("span");
+        charSpan.className = "hero-char";
+        charSpan.textContent = word[i];
+        charSpan.style.setProperty("--char-delay", `${(charIndex * 0.022).toFixed(3)}s`);
+        wordSpan.appendChild(charSpan);
+        charIndex++;
+      }
+
+      frag.appendChild(wordSpan);
+      if (wordIdx < rawWords.length - 1) {
+        frag.appendChild(document.createTextNode(" "));
+      }
+    });
+
+    titleMain.textContent = "";
+    titleMain.appendChild(frag);
+  }
+
+  function syncHeroCharGradients() {
+    if (!titleMain) return;
+    const chars = Array.from(titleMain.querySelectorAll(".hero-char"));
+    if (!chars.length) return;
+    const baseLeft = titleMain.offsetLeft;
+    const totalWidth = Math.max(titleMain.offsetWidth, 1);
+    const offsets = chars.map((ch) => Math.max(0, ch.offsetLeft - baseLeft));
+
+    chars.forEach((ch, idx) => {
+      ch.style.setProperty("--grad-w", `${totalWidth.toFixed(1)}px`);
+      ch.style.setProperty("--grad-x", `${(-offsets[idx]).toFixed(1)}px`);
+    });
+  }
+
+  syncHeroCharGradients();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      window.requestAnimationFrame(syncHeroCharGradients);
+    });
+  }
+  window.addEventListener("resize", () => {
+    window.requestAnimationFrame(syncHeroCharGradients);
+  }, { passive: true });
+
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    heroSection.classList.add("hero-anim-ready", "hero-in");
+    return;
+  }
+
+  heroSection.classList.add("hero-anim-ready");
+
+  let lastTriggerAt = 0;
+  let scrollCheckPending = false;
+
+  const snapResetHero = () => {
+    if (!heroSection.classList.contains("hero-in")) return;
+    heroSection.classList.add("hero-no-transition");
+    heroSection.classList.remove("hero-in");
+    void heroSection.offsetWidth;
+    heroSection.classList.remove("hero-no-transition");
+  };
+
+  const triggerHeroEnter = () => {
+    lastTriggerAt = performance.now();
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        heroSection.classList.add("hero-in");
+      });
+    });
+  };
+
+  const replayHeroAnimation = (force = false) => {
+    const now = performance.now();
+    if (!force && now - lastTriggerAt < 1850) return;
+    snapResetHero();
+    triggerHeroEnter();
+  };
+
+  const syncHeroScrollState = () => {
+    scrollCheckPending = false;
+    const vh = window.innerHeight || 800;
+    const rect = heroSection.getBoundingClientRect();
+
+    // Reset as soon as Hero scrolls largely above the fold (even on Section 2 About)
+    if (rect.bottom < vh * 0.22) {
+      snapResetHero();
+      return;
+    }
+
+    // Replay whenever returning into Hero view from below
+    if (rect.bottom >= vh * 0.42 && !heroSection.classList.contains("hero-in")) {
+      triggerHeroEnter();
+    }
+  };
+
+  const requestHeroSync = () => {
+    if (!scrollCheckPending) {
+      scrollCheckPending = true;
+      window.requestAnimationFrame(syncHeroScrollState);
+    }
+  };
+
+  const initialRect = heroSection.getBoundingClientRect();
+  if (initialRect.bottom > 40) {
+    triggerHeroEnter();
+  }
+
+  window.addEventListener("scroll", requestHeroSync, { passive: true });
+  window.addEventListener("resize", requestHeroSync, { passive: true });
+
+  // Always replay cleanly when tapping Home / Logo / Back to Top links
+  document.querySelectorAll('a[href="#hero"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      const vh = window.innerHeight || 800;
+      const rect = heroSection.getBoundingClientRect();
+      if (rect.bottom >= vh * 0.22) {
+        replayHeroAnimation(true);
+      } else {
+        snapResetHero();
+      }
+    });
+  });
+
+  // Support downward pull-from-top gesture on mobile touch & wheel-up at y=0
+  let touchStartY = null;
+  let touchTriggered = false;
+
+  window.addEventListener("touchstart", (e) => {
+    if (window.scrollY <= 6 && e.touches && e.touches.length === 1) {
+      touchStartY = e.touches[0].clientY;
+      touchTriggered = false;
+    } else {
+      touchStartY = null;
+    }
+  }, { passive: true });
+
+  window.addEventListener("touchmove", (e) => {
+    if (touchStartY === null || touchTriggered || !e.touches || e.touches.length !== 1) return;
+    if (window.scrollY <= 6 && (e.touches[0].clientY - touchStartY) > 42) {
+      touchTriggered = true;
+      replayHeroAnimation(false);
+    }
+  }, { passive: true });
+
+  window.addEventListener("wheel", (e) => {
+    if (window.scrollY <= 6 && e.deltaY < -35) {
+      replayHeroAnimation(false);
+    }
+  }, { passive: true });
 }
 
 /* ===================================================================
@@ -1113,4 +1296,196 @@ function initAboutBackgroundAnimation() {
   }
 
   animationFrameId = requestAnimationFrame(render);
+}
+
+/* ===================================================================
+   TINY MOVING PARTICLES ANIMATION (THIRD PAGE / SERVICES ONWARDS)
+   Subtle drifting gold, ivory & solar amber stardust starting at #services
+   =================================================================== */
+function initTrailingParticlesAnimation() {
+  const canvas = document.getElementById("trailingParticlesCanvas");
+  const startSection = document.getElementById("services");
+  if (!canvas || !startSection) return;
+
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    canvas.dataset.particlesActive = "false";
+    return;
+  }
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  let width = 0;
+  let height = 0;
+  let particles = [];
+  let rafId = null;
+  let lastTime = 0;
+  let lastScrollY = window.scrollY;
+  let isActive = false;
+
+  const COLORS = [
+    { r: 229, g: 205, b: 130, weight: 0.55 }, // Champagne gold
+    { r: 251, g: 108, b: 0,   weight: 0.25 }, // Solar amber
+    { r: 255, g: 244, b: 214, weight: 0.20 }  // Warm ivory spark
+  ];
+
+  function pickColor() {
+    const roll = Math.random();
+    let acc = 0;
+    for (let i = 0; i < COLORS.length; i++) {
+      acc += COLORS[i].weight;
+      if (roll <= acc) return COLORS[i];
+    }
+    return COLORS[0];
+  }
+
+  function createParticle(randomY = true) {
+    const depth = 0.35 + Math.random() * 0.65;
+    return {
+      x: Math.random() * (width || window.innerWidth),
+      y: randomY ? Math.random() * (height || window.innerHeight) : (height || window.innerHeight) + 8,
+      radius: 0.85 + depth * 1.45,
+      depth,
+      color: pickColor(),
+      vy: -(12 + depth * 24),
+      vx: (Math.random() - 0.5) * 10,
+      waveAmp: 4 + Math.random() * 8,
+      waveFreq: 0.6 + Math.random() * 0.9,
+      wavePhase: Math.random() * Math.PI * 2,
+      twinkleSpeed: 1.1 + Math.random() * 1.8,
+      twinklePhase: Math.random() * Math.PI * 2,
+      baseAlpha: 0.30 + depth * 0.46,
+      hasHalo: Math.random() > 0.62
+    };
+  }
+
+  function populateParticles() {
+    const targetCount = Math.min(Math.max(Math.floor(width / 16), 42), 95);
+    particles = [];
+    for (let i = 0; i < targetCount; i++) {
+      particles.push(createParticle(true));
+    }
+  }
+
+  function resizeCanvas() {
+    const prevWidth = width;
+    const prevHeight = height;
+    width = window.innerWidth;
+    height = window.innerHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    if (!particles.length || Math.abs(width - prevWidth) > 120 || Math.abs(height - prevHeight) > 160) {
+      populateParticles();
+    }
+  }
+
+  function setActiveState(nextActive) {
+    if (isActive === nextActive) return;
+    isActive = nextActive;
+    canvas.classList.toggle("is-active", nextActive);
+    canvas.dataset.particlesActive = nextActive ? "true" : "false";
+    if (!nextActive) {
+      ctx.clearRect(0, 0, width, height);
+    }
+  }
+
+  function wrapCoord(value, max, pad = 12) {
+    const span = max + pad * 2;
+    return ((((value + pad) % span) + span) % span) - pad;
+  }
+
+  function updateParticle(p, dt, timeSec, scrollDelta) {
+    const clampedDelta = Math.max(-50, Math.min(50, scrollDelta));
+    p.y = wrapCoord(p.y + p.vy * dt - clampedDelta * (0.08 + p.depth * 0.18), height, 12);
+    p.x = wrapCoord(p.x + (p.vx + Math.sin(timeSec * p.waveFreq + p.wavePhase) * p.waveAmp) * dt, width, 12);
+  }
+
+  function drawParticle(p, timeSec, clipTop) {
+    if (p.y < clipTop - 6) return;
+
+    const edgeFade = clipTop > 0 ? Math.min(1, Math.max(0, (p.y - clipTop) / 70)) : 1;
+    const twinkle = 0.68 + 0.32 * Math.sin(timeSec * p.twinkleSpeed + p.twinklePhase);
+    const alpha = Math.max(0.08, Math.min(0.82, p.baseAlpha * twinkle * edgeFade));
+    if (alpha <= 0.02) return;
+
+    const { r, g, b } = p.color;
+
+    if (p.hasHalo) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${(alpha * 0.22).toFixed(3)})`;
+      ctx.fill();
+    }
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(3)})`;
+    ctx.fill();
+  }
+
+  function frame(now) {
+    rafId = null;
+    if (!lastTime) lastTime = now;
+    const dt = Math.min(0.05, Math.max(0.001, (now - lastTime) / 1000));
+    lastTime = now;
+    const timeSec = now / 1000;
+
+    const currentScrollY = window.scrollY;
+    const scrollDelta = currentScrollY - lastScrollY;
+    lastScrollY = currentScrollY;
+
+    const startRect = startSection.getBoundingClientRect();
+    const clipTop = Math.max(0, Math.round(startRect.top));
+
+    if (clipTop >= height) {
+      setActiveState(false);
+      return;
+    }
+
+    setActiveState(true);
+    ctx.clearRect(0, 0, width, height);
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0, clipTop, width, height - clipTop);
+    ctx.clip();
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      updateParticle(p, dt, timeSec, scrollDelta);
+      drawParticle(p, timeSec, clipTop);
+    }
+
+    ctx.restore();
+    rafId = window.requestAnimationFrame(frame);
+  }
+
+  function ensureRunning() {
+    if (rafId !== null) return;
+    const startRect = startSection.getBoundingClientRect();
+    if (startRect.top < height) {
+      lastTime = 0;
+      lastScrollY = window.scrollY;
+      setActiveState(true);
+      rafId = window.requestAnimationFrame(frame);
+    } else {
+      setActiveState(false);
+    }
+  }
+
+  resizeCanvas();
+  canvas.dataset.particlesActive = "false";
+  ensureRunning();
+
+  window.addEventListener("scroll", ensureRunning, { passive: true });
+  window.addEventListener("resize", () => {
+    resizeCanvas();
+    ensureRunning();
+  }, { passive: true });
+  window.addEventListener("portfolio:layoutchange", ensureRunning);
 }

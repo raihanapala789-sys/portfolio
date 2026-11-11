@@ -136,6 +136,22 @@ body::before {
 .ambient-glow-mid { top: 40%; left: -250px; }
 .ambient-glow-bottom { bottom: -200px; right: 10%; }
 
+/* Tiny Floating Particles Canvas (Page 3: What I Bring onwards) */
+.trailing-particles-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.trailing-particles-canvas.is-active {
+  opacity: 1;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -517,6 +533,8 @@ img {
   justify-content: flex-end;
   position: relative;
   width: 100%;
+  translate: var(--hero-photo-x-parallax, 0px) var(--hero-photo-y-parallax, 0px);
+  will-change: transform, translate, opacity;
 }
 
 .hero-portrait-wrapper {
@@ -573,6 +591,27 @@ img {
   gap: 1.6rem;
   width: 100%;
   max-width: 680px;
+  translate: 0 var(--hero-text-parallax, 0px);
+  will-change: translate;
+}
+
+.hero-title-main {
+  display: block;
+}
+
+.hero-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hero-char {
+  display: inline-block;
+  background: linear-gradient(135deg, #E5CD82 0%, #FFF5DB 30%, #FB6C00 72%, #D47824 100%);
+  background-size: var(--grad-w, 100%) 100%;
+  background-position: var(--grad-x, 0%) 0%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  will-change: transform, opacity, filter;
 }
 
 .hero-status-pill {
@@ -631,11 +670,159 @@ img {
   font-weight: 400;
   letter-spacing: 0.02em;
   color: #E5CD82;
+  background: linear-gradient(135deg, #FFF5DB 0%, #E5CD82 42%, #FB6C00 95%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-top: 0.15rem;
   margin-bottom: 0.35rem;
   text-transform: capitalize;
   line-height: 1.1;
   filter: drop-shadow(0 2px 14px rgba(229, 205, 130, 0.35));
+  will-change: transform, opacity, filter;
+}
+
+/* ===================================================================
+   HERO CHOREOGRAPHED SCROLL & ENTRANCE ANIMATION
+   Step 1: AI CONTENT CREATOR letters + Raihanath drop from top
+   Step 2: Status pill, description & CTA details glide in
+   Step 3: Hero portrait enters from right side
+   =================================================================== */
+.hero-section.hero-anim-ready .hero-name {
+  background: none;
+  -webkit-background-clip: border-box;
+  -webkit-text-fill-color: initial;
+  filter: drop-shadow(0 4px 10px rgba(42, 26, 14, 0.25)) drop-shadow(0 1px 1px rgba(255, 255, 255, 0.45));
+}
+
+.hero-section.hero-anim-ready .hero-char {
+  opacity: 0;
+  transform: translate3d(0, -80px, 0) scale(0.92);
+  filter: blur(5px);
+  transition: opacity 0.28s ease,
+              transform 0.32s ease,
+              filter 0.28s ease;
+  transition-delay: 0s;
+}
+
+.hero-section.hero-anim-ready .hero-title-highlight {
+  opacity: 0;
+  transform: translate3d(0, -70px, 0) scale(0.95);
+  filter: blur(5px) drop-shadow(0 2px 14px rgba(229, 205, 130, 0.35));
+  transition: opacity 0.28s ease,
+              transform 0.32s ease,
+              filter 0.28s ease;
+  transition-delay: 0s;
+}
+
+.hero-section.hero-anim-ready .hero-status-pill {
+  opacity: 0;
+  transform: translate3d(0, -26px, 0);
+  transition: opacity 0.28s ease, transform 0.32s ease;
+  transition-delay: 0s;
+}
+
+.hero-section.hero-anim-ready .hero-description {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition: opacity 0.28s ease, transform 0.32s ease;
+  transition-delay: 0s;
+}
+
+.hero-section.hero-anim-ready .hero-cta-group {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity 0.28s ease, transform 0.32s ease;
+  transition-delay: 0s;
+}
+
+.hero-section.hero-anim-ready .hero-portrait-col {
+  opacity: 0;
+  transform: translate3d(115px, 0, 0) scale(0.96);
+  transition: opacity 0.32s ease, transform 0.38s ease;
+  transition-delay: 0s;
+}
+
+/* Revealed Hero Sequence */
+.hero-section.hero-anim-ready.hero-in .hero-char {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0px);
+  transition: opacity 0.56s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.56s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--char-delay, 0s);
+}
+
+.hero-section.hero-anim-ready.hero-in .hero-title-highlight {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0px) drop-shadow(0 2px 14px rgba(229, 205, 130, 0.35));
+  transition: opacity 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.68s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.34s;
+}
+
+.hero-section.hero-anim-ready.hero-in .hero-status-pill {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 0.52s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.58s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.44s;
+}
+
+.hero-section.hero-anim-ready.hero-in .hero-description {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 0.56s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.56s;
+}
+
+.hero-section.hero-anim-ready.hero-in .hero-cta-group {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 0.56s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.68s;
+}
+
+.hero-section.hero-anim-ready.hero-in .hero-portrait-col {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  transition: opacity 0.78s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.78s;
+}
+
+.hero-section.hero-no-transition .hero-char,
+.hero-section.hero-no-transition .hero-title-highlight,
+.hero-section.hero-no-transition .hero-status-pill,
+.hero-section.hero-no-transition .hero-description,
+.hero-section.hero-no-transition .hero-cta-group,
+.hero-section.hero-no-transition .hero-portrait-col {
+  transition: none !important;
+  transition-delay: 0s !important;
+}
+
+@media (max-width: 768px) {
+  .hero-section.hero-anim-ready .hero-portrait-col {
+    transform: translate3d(70px, 0, 0) scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-section.hero-anim-ready .hero-char,
+  .hero-section.hero-anim-ready .hero-title-highlight,
+  .hero-section.hero-anim-ready .hero-status-pill,
+  .hero-section.hero-anim-ready .hero-description,
+  .hero-section.hero-anim-ready .hero-cta-group,
+  .hero-section.hero-anim-ready .hero-portrait-col {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
 }
 
 .hero-description {
@@ -2518,9 +2705,8 @@ img {
 .site-footer {
   padding: 60px 0 35px 0;
   border-top: 1px solid rgba(197, 160, 89, 0.25);
-  background: var(--bg-secondary);
+  background: linear-gradient(180deg, rgba(31, 18, 8, 0.45) 0%, var(--bg-secondary) 100%);
   position: relative;
-  z-index: 2;
 }
 
 .footer-top {

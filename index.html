@@ -27,6 +27,7 @@
   <div class="ambient-glow ambient-glow-top"></div>
   <div class="ambient-glow ambient-glow-mid"></div>
   <div class="ambient-glow ambient-glow-bottom"></div>
+  <canvas id="trailingParticlesCanvas" class="trailing-particles-canvas" aria-hidden="true"></canvas>
 
   <!-- =================================================================
        NAVIGATION HEADER
@@ -84,7 +85,7 @@
           </div>
 
           <h1 class="hero-name">
-            AI CONTENT CREATOR
+            <span class="hero-title-main">AI CONTENT CREATOR</span>
             <span class="hero-title-highlight">Raihanath</span>
           </h1>
 
@@ -515,7 +516,7 @@
           <!-- Experiment 1: Abba Perfume -->
           <div class="project-card" data-category="luxury commercial" onclick="openProjectModal('abba')">
             <div class="project-thumbnail-wrapper" onclick="toggleCardVideo(this, event)" role="button" aria-label="Play Abba Perfume video preview">
-              <video class="project-card-video" src="assets/abba-perfume.mp4" poster="assets/covers/cover-abba.jpg" muted loop playsinline preload="metadata"></video>
+              <video class="project-card-video" src="assets/abba-perfume.mp4" poster="assets/covers/cover-abba.jpg?v=2" muted loop playsinline preload="metadata"></video>
               <span class="canvas-overlay-tag"><i class="fa-solid fa-play" style="margin-right: 4px; font-size: 0.65rem;"></i> AI Video</span>
               <div class="play-prompt-btn">
                 <i class="fa-solid fa-play"></i>
@@ -546,7 +547,7 @@
           <!-- Experiment 2: Plus Point Cleaning Service -->
           <div class="project-card" data-category="brand commercial" onclick="openProjectModal('pluspoint')">
             <div class="project-thumbnail-wrapper" onclick="toggleCardVideo(this, event)" role="button" aria-label="Play Plus Point Cleaning Service video preview">
-              <video class="project-card-video" src="assets/plus-point.mp4" poster="assets/covers/cover-pluspoint.jpg" muted loop playsinline preload="metadata"></video>
+              <video class="project-card-video" src="assets/plus-point.mp4" poster="assets/covers/cover-pluspoint.jpg?v=2" muted loop playsinline preload="metadata"></video>
               <span class="canvas-overlay-tag"><i class="fa-solid fa-play" style="margin-right: 4px; font-size: 0.65rem;"></i> AI Video</span>
               <div class="play-prompt-btn">
                 <i class="fa-solid fa-play"></i>
@@ -577,7 +578,7 @@
           <!-- Experiment 3: School Admission Ad -->
           <div class="project-card" data-category="brand commercial" onclick="openProjectModal('evostyle')">
             <div class="project-thumbnail-wrapper" onclick="toggleCardVideo(this, event)" role="button" aria-label="Play School Admission Ad video preview">
-              <video class="project-card-video" src="assets/school-admission.mp4" poster="assets/covers/cover-school.jpg" muted loop playsinline preload="metadata"></video>
+              <video class="project-card-video" src="assets/school-admission.mp4" poster="assets/covers/cover-school.jpg?v=2" muted loop playsinline preload="metadata"></video>
               <span class="canvas-overlay-tag"><i class="fa-solid fa-play" style="margin-right: 4px; font-size: 0.65rem;"></i> AI Video</span>
               <div class="play-prompt-btn">
                 <i class="fa-solid fa-play"></i>
@@ -608,7 +609,7 @@
           <!-- Experiment 4: Chocolate Action Trailer -->
           <div class="project-card" data-category="brand commercial" onclick="openProjectModal('chocolate')">
             <div class="project-thumbnail-wrapper" onclick="toggleCardVideo(this, event)" role="button" aria-label="Play Chocolate Commercial video preview">
-              <video class="project-card-video" src="assets/chocolate-commercial.mp4" poster="assets/covers/cover-chocolate.jpg" muted loop playsinline preload="metadata"></video>
+              <video class="project-card-video" src="assets/chocolate-commercial.mp4" poster="assets/covers/cover-chocolate.jpg?v=2" muted loop playsinline preload="metadata"></video>
               <span class="canvas-overlay-tag"><i class="fa-solid fa-play" style="margin-right: 4px; font-size: 0.65rem;"></i> AI Video</span>
               <div class="play-prompt-btn">
                 <i class="fa-solid fa-play"></i>
@@ -639,7 +640,7 @@
           <!-- Experiment 5: Jasper Commercial -->
           <div class="project-card" data-category="brand commercial" onclick="openProjectModal('jasper')">
             <div class="project-thumbnail-wrapper" onclick="toggleCardVideo(this, event)" role="button" aria-label="Play Jasper Commercial video preview">
-              <video class="project-card-video" src="assets/jasper-commercial.mp4" poster="assets/covers/cover-jasper.jpg" muted loop playsinline preload="metadata"></video>
+              <video class="project-card-video" src="assets/jasper-commercial.mp4" poster="assets/covers/cover-jasper.jpg?v=2" muted loop playsinline preload="metadata"></video>
               <span class="canvas-overlay-tag"><i class="fa-solid fa-play" style="margin-right: 4px; font-size: 0.65rem;"></i> AI Video</span>
               <div class="play-prompt-btn">
                 <i class="fa-solid fa-play"></i>
@@ -670,7 +671,7 @@
           <!-- Experiment 6: Buttermilk Ad -->
           <div class="project-card" data-category="brand commercial" onclick="openProjectModal('vilavil')">
             <div class="project-thumbnail-wrapper" onclick="toggleCardVideo(this, event)" role="button" aria-label="Play Buttermilk Commercial video preview">
-              <video class="project-card-video" src="assets/vilavil-ad.mp4" poster="assets/covers/cover-vilavil.jpg" muted loop playsinline preload="metadata"></video>
+              <video class="project-card-video" src="assets/vilavil-ad.mp4" poster="assets/covers/cover-vilavil.jpg?v=2" muted loop playsinline preload="metadata"></video>
               <span class="canvas-overlay-tag"><i class="fa-solid fa-play" style="margin-right: 4px; font-size: 0.65rem;"></i> AI Video</span>
               <div class="play-prompt-btn">
                 <i class="fa-solid fa-play"></i>
